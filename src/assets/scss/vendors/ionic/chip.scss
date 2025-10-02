@@ -1,0 +1,9 @@
+.location-chip {
+  background-color: var(--surface-200);
+}
+
+@media screen and (max-width: 1200px) {
+  .location-chip {
+    background: transparent;
+  }
+}

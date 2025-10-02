@@ -1,0 +1,132 @@
+<section id="news"
+           class="w-full md:pb-3 pt-3 md:pt-5 md:gap-3"
+           [ngClass]="{'md:gap-0': vertical}">
+    <section class="w-full">
+      <list-title [title]="'Noticias y novedades'"
+            [description]="'No te pierdas nada! Mantente actualizado de todas las novedades y avances de la ciudad'"
+            [icon]="'newspaper-outline'"
+            [css]="'uch-txt--secondary'"
+            [showLine]="true">
+      </list-title>
+    </section>
+
+    <section class="w-full flex flex-column md:flex-row md:gap-6 mt-5 align-items-start"
+             [ngClass]="{'md:flex-column md:mt-2 md:gap-3': vertical}">
+      <section class="w-full md:w-7"
+               [ngClass]="{'md:w-12': vertical}">
+        <section class="w-full overflow-hidden">
+          <p-carousel *ngIf="itemList"
+                      [numVisible]="1"
+                      [autoplayInterval]="5000"
+                      [value]="itemList">
+            <ng-template let-item
+                         pTemplate="item">
+              <section class="h-14rem sm:h-22rem w-full bg-cover bg-center border-round-2xl overflow-hidden mx-auto relative"
+                       [style.background]="getBackground(item.archivo)">         
+                <section *ngIf="!verifyMP4Extension(item.archivo)"
+                         class="absolute top-0 bottom-0 right-0 left-0 h-full uch-background-gradient-2 z-1">
+                </section>
+
+                <section *ngIf="verifyMP4Extension(item.archivo)"
+                         class="w-full h-full relative">
+                  <video #videoElement
+                         controls 
+                         class="w-full h-full" 
+                         style="object-fit: cover;"
+                         (loadedmetadata)="setVideoStartTime(videoElement, 2)"
+                         (play)="onVideoPlay()"
+                         (pause)="onVideoPause()">
+                    <source [src]="getVideoLink(item.archivo)" type="video/mp4">
+                    Tu navegador no soporta el tag de video.
+                  </video>
+                </section>
+
+                <section *ngIf="verifyMP4Extension(item.archivo) && !isVideoPlaying"
+                         class="absolute h-10rem top-0 right-0 left-0 h-full uch-background-gradient-2-inverted z-1">
+                </section>
+
+                <section *ngIf="!isVideoPlaying" 
+                         class="fadein w-full absolute right-0 left-0 flex justify-content-between z-2 p-2 md:p-3"
+                         [ngClass]="{ 'top-0 align-items-start': verifyMP4Extension(item.archivo),
+                                      'bottom-0 align-items-end': !verifyMP4Extension(item.archivo) }">
+                  <div class="w-10">
+                    <p class="uch-txt--white text-sm font-semibold">
+                      {{ item.titulo }}
+                    </p>
+
+                    <ion-button class="mt-1"
+                                color="secondary"
+                                size="small"
+                                (click)="openLink(item.slug)">
+                      Ver más
+                    </ion-button>
+                  </div>
+    
+                  <section class="h-3rem w-3rem uch-bg--white border-round-xl flex flex-column justify-content-center align-items-center">
+                    <h4 class="title my-0 uch-txt--primary"
+                        style="letter-spacing: 2px;">
+                      {{getDay(item.fecha)}}
+                    </h4>
+                  
+                    <span class="uch-txt--black text-sm -mt-1 capitalize">
+                      {{getMonth(item.fecha)}}
+                    </span>
+                  </section>
+                </section>
+              </section>
+            </ng-template>
+          </p-carousel>
+        
+          <section *ngIf="!itemList"
+                   class="w-full h-14rem md:h-21rem border-round-2xl overflow-hidden relative">
+            <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+          </section>
+        </section>
+      </section>
+
+      <section class="w-full md:w-5"
+               [ngClass]="{'md:w-12': vertical}">
+        <section class="w-full overflow-hidden">
+          <p-carousel *ngIf="itemList"
+                      [value]="[1,1]"
+                      [numVisible]="1"
+                      [autoplayInterval]="3000"
+                      [value]="bannerList"
+                      [showNavigators]="false">
+            <ng-template let-item
+                         pTemplate="item">
+              <section *ngIf="item.src" class="w-full h-full p-3 border-round-2xl flex flex-column align-items-center justify-content-center {{item.bgColor}}">
+               <img [src]="item.src"
+                    [alt]="item.alt"
+                    class="w-auto max-h-20rem md:max-h-14rem">
+    
+               <section class="flex flex-column align-items-center">
+                 <h4 class="text-center uch-txt--black-lighten {{item.textStyle}}">
+                   {{ item.text }}
+                 </h4>
+                      
+                 <ion-button color="warning"
+                             size="small"
+                             class="mt-4"
+                             (click)="redirectLink(item.link)">
+                    {{ item.buttonText }}
+                 </ion-button>
+               </section>
+              </section>
+
+              <section *ngIf="item.srcBg" class="border-round-xl overflow-hidden">
+                <img [src]="item.srcBg"
+                     [alt]="item.alt"
+                     class="w-full h-full">
+              </section>
+            </ng-template>
+          </p-carousel>
+        
+          <section *ngIf="!itemList"
+                   class="w-full h-14rem md:h-19rem border-round-2xl overflow-hidden relative">
+            <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+          </section>
+        </section>
+      </section>
+    </section>
+  </section>

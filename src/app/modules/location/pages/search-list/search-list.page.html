@@ -1,0 +1,59 @@
+<ion-toolbar></ion-toolbar>
+
+<ion-content>
+  <article class="w-full main-padding flex flex-column md:flex-row">
+    <section class="w-full">
+      <article *ngIf="categoryData?.id"
+               class="w-full my-3">
+        <section class="w-fit flex align-items-center gap-1 uch-txt--black-lighten cursor-pointer"
+                 (click)="location.back()">
+          <ion-icon name="chevron-back-outline"
+                    class="text-2xl"
+                    color="medium">
+          </ion-icon>
+
+          Atrás
+        </section>
+
+        <h3 class="uch-txt-title uch-txt--black text-xl md:text-2xl py-3 my-0 flex align-items-center">
+          Resultados sobre
+
+          <strong class="uch-txt--primary ml-1 font-semibold">
+            "{{categoryData.name}}"
+          </strong>
+        </h3>
+      </article>
+
+      <article *ngIf="!categoryData?.id"
+               class="w-full mt-3 md:mt-6">
+        <h3 class="uch-txt-title uch-txt--black text-xl md:text-2xl py-3 my-0">
+          <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+        </h3>
+
+        <h3 class="uch-txt-title uch-txt--black text-xl md:text-2xl py-3 my-0">
+          <ion-skeleton-text [animated]="true" class="w-3"></ion-skeleton-text>
+        </h3>
+      </article>
+
+      <article class="uch-bg--grey-lighten p-3 mt-3 border-round-xl">
+        <p class="mb-3 text-xl uch-txt--primary"> Turismo </p>
+
+        <article class="w-full">
+          <item-list [module]="'attractions'"
+                     [queryList]="queryList">
+          </item-list>
+        </article>
+      </article>
+
+      <article class="uch-bg--grey-lighten p-3 mt-3 border-round-xl">
+        <p class="mb-3 text-xl uch-txt--primary"> Gastronomía </p>
+
+        <article class="w-full pb-4">
+          <item-list [module]="'restaurants'"
+                     [queryList]="queryList">
+          </item-list>
+        </article>
+      </article>
+    </section>
+  </article>
+</ion-content>

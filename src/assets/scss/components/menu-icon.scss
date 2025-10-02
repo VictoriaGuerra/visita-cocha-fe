@@ -1,0 +1,24 @@
+.#{$app-prefix}-menu-icon {
+  &__item {
+    small {
+      transition: font-weight .2s;
+    }
+
+    &:hover {
+      small {
+        color: var(--#{$app-prefix}-color-primary) !important;
+        font-weight: 600;
+      }
+    }
+
+    &--no-hover {
+      cursor: auto;
+
+      &:hover {
+        ion-icon {
+          font-size: 1.5rem !important;
+        }
+      }
+    }
+  }
+}

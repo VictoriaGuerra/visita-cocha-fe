@@ -1,0 +1,146 @@
+<ion-menu side="start" menuId="side-menu" contentId="main">
+  <ion-content>
+    <section class="h-full flex flex-column ion-justify-content-between">
+      <section class="pt-4">
+        <section class="flex flex-column align-items-center cursor-pointer"
+                 routerLink="/"
+                 (click)="this.closeModal()">
+          <img class="max-w-13rem max-h-13rem my-3"
+               src="assets/images/logo/logo.svg"
+               alt="Logo"/>
+        </section>
+
+        <section class="w-10 mx-auto my-4 md:my-5">
+          <p-divider></p-divider>
+        </section>
+      </section>
+
+      <section class="px-1 flex-1">
+        <ion-list lines="none"
+                  class="px-3">
+          <section class="w-full flex flex-column gap-2 md:gap-3">
+            <ion-item routerLink='/'
+                      [ngClass]="{'active-link': router.url === '/'}"
+                      detail-icon="false"
+                      (click)="this.closeModal()">
+              <ion-icon name="home-outline" slot="start" size="small"></ion-icon>
+
+              <ion-label color="medium" class="ml-2 mt-1 flex align-items-bottom">
+                Inicio
+              </ion-label>
+            </ion-item>
+
+            <ion-item routerLink="attractions"
+                      [routerLinkActive]="'active-link'"
+                      detail-icon="false"
+                      (click)="this.closeModal()">
+              <ion-icon name="airplane-outline" slot="start" size="small"></ion-icon>
+
+              <ion-label color="medium" class="ml-2 mt-1 flex align-items-bottom">
+                Turismo
+              </ion-label>
+            </ion-item>
+
+            <ion-item routerLink="restaurants"
+                      [routerLinkActive]="'active-link'"
+                      detail-icon="false"
+                      (click)="this.closeModal()">
+              <ion-icon name="fast-food-outline" slot="start" size="small"></ion-icon>
+
+              <ion-label color="medium" class="ml-2 mt-1 flex align-items-bottom">
+                Gastronomía
+              </ion-label>
+            </ion-item>
+
+            <ion-item routerLink="map/view"
+                      [routerLinkActive]="'active-link'"
+                      detail-icon="false"
+                      (click)="this.closeModal()">
+              <ion-icon name="map-outline" slot="start" size="small"></ion-icon>
+
+              <ion-label color="medium" class="ml-2 mt-1 flex align-items-bottom">
+                Mapa
+              </ion-label>
+            </ion-item>
+          </section>
+        </ion-list>
+      </section>
+
+      <section class="w-full pb-4">
+        <section class="w-full flex flex-column justify-content-center py-3 align-items-center">
+          <!-- <ion-item (click)="copySharedMessage();closeModal()"
+                    class="cursor-pointer mb-1">
+            <ion-icon name="share-social" slot="start" size="small"></ion-icon>
+
+            <ion-label color="medium" class="ml-2 flex align-items-bottom">
+              Compartir
+            </ion-label>
+          </ion-item> -->
+
+          <section class="flex gap-2 cursor-pointer" (click)="openLink('https://drive.google.com/file/d/1tnD5QfQhodM7Ni1KTnYjf3wNTdbTvGBu/view')">
+            <ion-icon name="download-outline"
+                      slot="start"
+                      class="uch-txt--grey text-2xl">
+            </ion-icon>
+
+            <span class="uch-txt-body uch-txt--grey"> Guía turística </span>
+          </section>
+        </section>
+
+        <section class="w-10 mx-auto mb-4 md:mb-5">
+          <p-divider></p-divider>
+        </section>
+
+        <section class="flex gap-4 align-items-center justify-content-center">
+          <ion-icon name="logo-whatsapp"
+                    class="text-4xl cursor-pointer"
+                    color="medium"
+                    (click)="openLink('https://api.whatsapp.com/send?phone=59161561515')">
+          </ion-icon>
+  
+          <ion-icon name="logo-facebook"
+                    class="text-4xl cursor-pointer"
+                    color="medium"
+                    (click)="openLink('https://www.facebook.com/gamcochabamba')">
+          </ion-icon>
+          
+          <ion-icon name="logo-instagram"
+                    class="text-4xl cursor-pointer"
+                    color="medium"
+                    (click)="openLink('https://www.instagram.com/cochabambaciudad/')">
+          </ion-icon>
+          
+          <ion-icon name="logo-twitter"
+                    class="text-4xl cursor-pointer hidden"
+                    color="medium"
+                    (click)="openLink('https://twitter.com/gam_cochabamba')">
+          </ion-icon>
+          
+          <ion-icon name="logo-youtube"
+                    class="text-4xl cursor-pointer hidden"
+                    color="medium"
+                    (click)="openLink('https://www.youtube.com/channel/UC6mQC2naSRZuNfuYvqKX2ow')">
+          </ion-icon>
+  
+          <ion-icon name="logo-tiktok"
+                    class="text-4xl cursor-pointer"
+                    color="medium"
+                    (click)="openLink('https://www.tiktok.com/@alcaldiadecochabamba')">
+          </ion-icon>
+  
+          <ion-icon name="logo-linkedin"
+                    class="text-4xl cursor-pointer hidden"
+                    color="medium"
+                    (click)="openLink('https://www.linkedin.com/company/gamc/')">
+          </ion-icon>
+  
+          <ion-icon name="laptop-outline"
+                    class="text-4xl cursor-pointer hidden"
+                    color="medium"
+                    (click)="openLink('https://cochabamba.bo/')">
+          </ion-icon>
+        </section>
+      </section>
+    </section>
+  </ion-content>
+</ion-menu>

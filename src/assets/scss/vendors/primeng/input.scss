@@ -1,0 +1,25 @@
+.p-inputtext:enable:focus {
+  border-color: #ced4da;
+}
+
+.p-tabview .p-tabview-nav li .p-tabview-nav-link {
+  padding: 1rem !important;
+  font-size: 14px;
+}
+
+.p-tabview .p-tabview-nav li .p-tabview-nav-link:not(.p-disabled):focus {
+  box-shadow: none !important;
+}
+
+.p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+  border-color: var(--ion-color-primary) !important;
+  color: var(--ion-color-primary) !important;
+}
+
+.p-tabview .p-tabview-nav .p-tabview-ink-bar {
+  background-color: var(--ion-color-primary) !important;;
+}
+
+.p-tabview .p-tabview-panels {
+  padding-top: 0 !important;
+}

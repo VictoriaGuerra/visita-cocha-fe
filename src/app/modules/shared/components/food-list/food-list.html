@@ -1,0 +1,20 @@
+<article *ngIf="foodList?.length > 0"
+         (panleft)="scrollLeft($event)"
+         (panright)="this.scrollRight($event)">
+  <section #foodContainer
+           class="uch-scroll fadein animation-duration-300">
+    <section *ngFor="let food of foodList"
+             [ngClass]="{'mb-4': foodList.length > 3}">
+      <section class="w-8rem h-6rem mr-3 mb-2 cursor-pointer border-round-xl p-3 flex flex-column justify-content-center relative overflow-hidden z-0 bg-center bg-cover shadow-3"
+               style="background-image: url({{food.coverUrl}});"
+               (click)="goToRoute(food.id)">
+        <section class="w-full h-full uch-background-gradient-1 absolute top-0 right-0 left-0 bottom-0 z-1">
+        </section>
+      </section>
+
+      <p class="w-8rem mt-2 text-sm z-2 uch-txt--black uch--ellipsis">
+        {{ food.name }}
+      </p>
+    </section>
+  </section>
+</article>

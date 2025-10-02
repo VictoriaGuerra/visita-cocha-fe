@@ -1,0 +1,61 @@
+<footer class="main-padding fadeindown w-full flex flex-column md:flex-row justify-content-between py-8 uch-txt--white uch-bg--primary">
+  <article class="w-full flex flex-column justify-content-center gap-4 md:gap-0 md:flex-row md:justify-content-between">
+    <div class="w-full md:w-6">
+      <section class="w-full flex flex-column align-items-center md:align-items-start md:-mt-2 w-fit mx-auto md:mx-0">
+        <img class="h-6rem w-auto max-w-12rem"
+             src="assets/images/logo/logoWhite.svg"
+             alt="Logo"/>
+      </section>
+    </div>
+
+    <div class="w-full md:w-6 flex flex-column align-items-center md:align-items-start mt-3 md:mt-0">
+      <h4 class="hidden md:block mt-0 mb-3">
+        Navegación
+      </h4>
+
+      <ul class="flex flex-column align-items-center md:align-items-start">
+        <li><a routerLink="/">Inicio</a></li>
+        <li><a routerLink="/attractions">Turismo</a></li>
+        <li><a routerLink="/restaurants">Gastronomía</a></li>
+        <li><a routerLink="/map/view">Mapa de la ciudad</a></li>
+      </ul>
+    </div>
+
+    <div class="w-full md:w-6 flex flex-column align-items-center md:align-items-start">
+      <h4 class="hidden md:block mt-0 mb-3">
+        Redes sociales
+      </h4>
+
+      <section class="w-full flex gap-4 justify-content-center md:justify-content-start pb-3">
+        <ion-icon name="logo-whatsapp"
+                  class="text-4xl cursor-pointer"
+                  color="light"
+                  (click)="openLink('https://api.whatsapp.com/send?phone=59161561515')">
+        </ion-icon>
+
+        <ion-icon name="logo-facebook"
+                  class="text-4xl cursor-pointer"
+                  color="light"
+                  (click)="openLink('https://www.facebook.com/gamcochabamba')">
+        </ion-icon>
+        
+        <ion-icon name="logo-instagram"
+                  class="text-4xl cursor-pointer"
+                  color="light"
+                  (click)="openLink('https://www.instagram.com/cochabambaciudad/')">
+        </ion-icon>
+
+        <ion-icon name="logo-tiktok"
+                  class="text-4xl cursor-pointer"
+                  color="light"
+                  (click)="openLink('https://www.tiktok.com/@alcaldiadecochabamba')">
+        </ion-icon>
+      </section>
+
+      <small class="mt-3">Todos los derechos reservados © {{year}}.</small>
+    </div>
+  </article>
+
+  <article class="h-1rem md:h-15rem">
+  </article>
+</footer>

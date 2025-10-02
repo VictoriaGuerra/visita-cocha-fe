@@ -1,0 +1,158 @@
+//----------------------------------------------------------
+// HELPERS
+//----------------------------------------------------------
+
+// FONT COLORS
+@each $name, $color in $colors {
+  .#{$app-prefix}-txt--#{$name + ""} {
+    color: var(--#{$app-prefix}-color-#{$name + ""}) !important;
+  }
+}
+
+// FONT WEIGHT
+%#{$app-prefix}-font-title {
+  font-family: var(--#{$app-prefix}-font-family-title);
+}
+
+%#{$app-prefix}-font-text {
+  font-family: var(--#{$app-prefix}-font-family-text);
+}
+
+@mixin font-weight {
+  &--bold {
+    font-weight: 700;
+  }
+
+  &--semibold {
+    font-weight: 600;
+  }
+
+  &--regular {
+    font-weight: 400;
+  }
+
+  &--light {
+    font-weight: 300;
+  }
+
+  &--italic {
+    font-style: italic;
+  }
+}
+
+.#{$app-prefix}-txt-title {
+  @extend %#{$app-prefix}-font-title;
+  @include font-weight;
+
+  font-size: 1.25rem;
+  color: var(--#{$app-prefix}-color-black);
+  font-weight: 400;
+  line-height: 1.25;
+
+  &--small {
+    font-size: 1rem !important;
+  }
+
+  &--big {
+    font-size: 1.875rem !important;
+  }
+
+  &--extra-big {
+    font-size: 4rem !important;
+  }
+}
+
+.#{$app-prefix}-txt-body {
+  @extend %#{$app-prefix}-font-text;
+  @include font-weight;
+
+  font-size: 1rem;
+  color: var(--#{$app-prefix}-color-black);
+  font-weight: 400;
+  line-height: 1.5;
+
+  &--small {
+    font-size: 0.75rem !important;
+  }
+
+  &--medium {
+    font-size: .95rem !important;
+  }
+
+  &--big {
+    font-size: 1.25rem;
+  }
+}
+
+// BACKGROUND COLORS
+@each $name, $color in $colors {
+  .#{$app-prefix}-bg--#{$name + ""} {
+    background-color: var(--#{$app-prefix}-color-#{$name + ""}) !important;
+  }
+}
+
+// MAIN PADDINGS
+.#{$app-prefix}-main-padding {
+  padding: var(--#{$app-prefix}-main-padding);
+}
+
+.#{$app-prefix}-main-admin-padding {
+  padding: var(--#{$app-prefix}-main-admin-padding);
+}
+
+// BACKGROUNDS
+.#{$app-prefix}-background-gradient-1 {
+  background: linear-gradient(180deg, rgba(50,23,90,0.6811974789915967) 0%, rgba(131,14,63,0.499124649859944) 50%, rgba(50,23,90,0.7848389355742297) 100%);
+  background-clip: content-box;
+  opacity: .7;
+}
+
+.#{$app-prefix}-background-gradient-2 {
+  background: linear-gradient(180deg, transparent, rgba(131,14,63,0.499124649859944) 74%, rgba(50,23,90,0.5999649859943977) 86%);
+  background-clip: content-box;
+  opacity: .7;
+}
+
+.#{$app-prefix}-background-gradient-card {
+  background: linear-gradient(180deg, rgba(2,0,36,0) 25%, rgba(131,14,63,0.26102941176470584) 65%, rgba(50,23,90,0.7848389355742297) 93%);
+  background-clip: content-box;
+  opacity: .7;
+}
+
+.#{$app-prefix}-scroll {
+  width: 100%;
+  display: -webkit-inline-box;
+  overflow: overlay;
+}
+
+.#{$app-prefix}--ellipsis {
+  display: -webkit-box;
+  -webkit-line-clamp: 1 !important;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.#{$app-prefix}--ellipsis-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.#{$app-prefix}--ellipsis-5 {
+  display: -webkit-box;
+  -webkit-line-clamp: 5 !important;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media screen and (max-width: 1200px) {
+  .#{$app-prefix}-scroll {
+    &::-webkit-scrollbar {
+      height: 0px;
+    }
+  }
+}

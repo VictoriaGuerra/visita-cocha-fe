@@ -1,0 +1,13 @@
+
+<article *ngIf="items.length > 0">
+  <p-tabMenu [model]="items"
+             [activeItem]="selectedTab"
+             [scrollable]="false"
+             (click)="publicEmitQuery($event.target)">
+  </p-tabMenu>
+</article>
+
+<article *ngIf="items.length === 0"
+         class="h-2rem py-2">
+  <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+</article>

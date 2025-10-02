@@ -1,0 +1,35 @@
+<article *ngIf="show"
+         class="w-full uch-bg--yellow border-round-xl p-3 flex flex-column-reverse align-items-center md:flex-row justify-content-between relative">
+  <section>
+    <section>
+      <h3 class="text-center md:text-right text-2xl uch-txt--primary my-0">
+        ¿Quieres formar parte de 
+        <strong class="uch-txt--secondary text-4xl white-space-nowrap">
+          Visita Cocha
+        </strong> ?
+      </h3>
+    </section>
+  
+    <section class="mt-5 md:mt-4">
+      <ion-button color="secondary"
+                  size=""
+                  class="w-full md:w-fit"
+                  (click)="openLink()">
+        <ion-icon slot="start" name="receipt-outline" class="mr-2"></ion-icon>
+  
+        Solicitar registro
+      </ion-button>
+    </section>
+  </section>
+
+  <section>
+    <img src="https://cdn3d.iconscout.com/3d/premium/thumb/handshake-3311965-2764508.png?f=webp"
+         alt="Cocha Somos Innovacion"
+         class="h-8rem w-auto">
+  </section>
+
+  <section class="absolute top-0 right-0 mr-3 mt-3 md:mt-2 cursor-pointer"
+           (click)="show = false">
+    <i class="pi pi-times uch-txt--black"></i>
+  </section>
+</article>

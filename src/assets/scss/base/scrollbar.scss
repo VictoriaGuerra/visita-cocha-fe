@@ -1,0 +1,5 @@
+.without-scroll {
+  &::-webkit-scrollbar {
+    height: 0px;
+  }
+}

@@ -1,0 +1,79 @@
+<ion-content>
+  <article class="h-screen w-screen uch-bg--grey-lighten">
+    <section class="relative">
+      <div id="map"
+           class="w-full"
+           [style]="{'height':'100vh'}">
+      </div>
+
+      <section class="w-full absolute top-0 mt-7 flex justify-content-center"
+               style="z-index: 999;"
+               [ngClass]="{'pointer-events-none': isLoading }">
+        <section class="uch-bg--grey-lighten border-round-xl shadow-4">
+          <ion-segment class="w-fit"
+                       color="secondary"
+                       [(ngModel)]="module"
+                       (ionChange)="changeTab()">
+            <ion-segment-button value="attractions">
+              <ion-label> Turismo </ion-label>
+            </ion-segment-button>
+
+            <ion-segment-button value="restaurants">
+              <ion-label> Gastronomía </ion-label>
+            </ion-segment-button>
+          </ion-segment>
+        </section>
+      </section>
+
+      <section *ngIf="!position"
+               class="fixed bottom-0 right-0 mb-3 mr-3"
+               style="z-index: 999;">
+        <ion-button class="w-fit border-circle"
+                    (click)="getLocation()">
+          <ion-icon slot="icon-only"
+                    name="locate-outline">
+          </ion-icon>
+        </ion-button>
+      </section>
+
+      <section *ngIf="position"
+               class="fixed bottom-0 right-0 mb-3 mr-3"
+               style="z-index: 999;">
+        <ion-button class="w-fit  border-circle"
+                    (click)="setMapPosition()">
+          <ion-icon slot="icon-only"
+                    name="navigate-outline">
+          </ion-icon>
+        </ion-button>
+      </section>
+
+      <section class="hidden md:block bg-white shadow-3 fixed bottom-0 left-0 mb-3 ml-3 border-round-xl"
+               style="z-index: 999;">
+        <app-info-map [data]="getInfoList()"></app-info-map>
+      </section>
+
+      <section class="md:hidden fixed bottom-0 right-0 mb-8 mr-3"
+               style="z-index: 999;">
+        <ion-button color="primary"
+                    size="small"
+                    (click)="openInfoModal()">
+          <ion-icon name="information-circle-outline">
+          </ion-icon>
+        </ion-button>
+      </section>
+    </section>
+
+    <section *ngIf="!showMap"
+             class="w-full h-full flex justify-content-center align-items-center">
+      <section class="flex flex-column justify-content-center align-items-center gap-4">
+        <section>
+          <i class="pi pi-spin pi-spinner uch-txt--primary text-7xl"></i>
+        </section>
+
+        <span class="uch-txt--black-lighten text-xl">
+          Cargando mapa...
+        </span>
+      </section>
+    </section>
+  </article>
+</ion-content>

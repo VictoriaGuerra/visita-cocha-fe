@@ -1,0 +1,9 @@
+<article *ngIf="faq"
+         class="w-full flex flex-column gap-3">
+  <p-accordion *ngFor="let item of faq"
+               [expandIcon]="'pi p'">
+    <p-accordionTab header="{{item.question}}">
+    {{item.answer}}
+    </p-accordionTab>
+  </p-accordion>
+</article>

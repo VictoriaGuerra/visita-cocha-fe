@@ -1,0 +1,27 @@
+<ion-toolbar></ion-toolbar>
+
+<ion-content>
+  <article class="w-full main-padding flex flex-column md:flex-row py-3 md:py-5">
+    <section class="mb-6 md:mb-0 md:w-8">
+      <h2 class="uch-txt-title text-2xl md:text-3xl uch-txt--primary font-semibold">
+        Comparte tus lugares favoritos con nosotros
+      </h2>
+
+      <h5 class="uch-txt-title text-lg md:text-xl uch-txt--black-lighten">
+        Hay algún lugar que no esté en nuestra guía turística?
+      </h5>
+
+      <p class="hidden uch-txt-body uch-txt--black-lighten mt-4 md:mt-6">
+        Valoramos tu opinión y nos encantaría conocer tus lugares turísticos favoritos. Si tienes algún lugar que te gustaría agregar a nuestra guía, ¡envíanos la información y lo agregaremos a nuestra lista!
+      </p>
+
+      <section class="mt-4 md:mt-6">
+        <new-location-form></new-location-form>
+      </section>
+    </section>
+
+    <p-divider class="hidden md:block mx-3"
+               [layout]="'vertical'">
+    </p-divider>
+  </article>
+</ion-content>

@@ -1,0 +1,21 @@
+.gm-style {
+  a {
+    display: none !important;
+  }
+
+  .gm-style-iw {
+    a {
+      display: block !important;
+    }
+  }
+}
+
+.gmnoprint {
+  display: block;
+}
+
+@media screen and (max-width: 1200px) {
+  .gmnoprint {
+    display: none;
+  }
+}

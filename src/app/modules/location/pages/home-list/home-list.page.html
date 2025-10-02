@@ -1,0 +1,52 @@
+<ion-toolbar></ion-toolbar>
+
+<ion-content scrollEvents="true">
+  <article class="sticky uch-bg--white z-5 pt-1"
+           style="top: 0px;">
+    <section id="filterContainer"
+             class="w-full main-padding md:mt-4">
+      <section class="flex justify-content-between align-items-center">
+        <hero-list [module]="module"
+                   class="hidden md:block">
+        </hero-list>
+
+        <section *ngIf="!publicMode" class="w-full uch-search--clear flex md:w-3 align-items-center">
+          <ion-searchbar id="homeListSearch"
+                         class="p-0"
+                         placeholder="Buscar"
+                         [debounce]="400"
+                         (ionChange)="changeSearchWord($event)"
+                         spellcheck="true"
+                         autofocus>
+          </ion-searchbar>
+        </section>
+      </section>
+    </section>
+
+    <section class="w-full uch-bg--white main-padding mt-2 md:mt-4">
+      <home-category-list [module]="module"
+                          (query)="setQueryList($event)">
+      </home-category-list>
+    </section>
+  </article>
+
+  <article class="w-full main-padding main-padding--no-xend-padding mt-3 md:mt-5">
+    <item-list #itemListComponent
+               [module]="module"
+               [queryList]="queryList">
+    </item-list>
+  </article>
+
+  <article *ngIf="module === 'restaurants' && foodList.length > 0"
+           class="w-full main-padding main-padding--no-xend-padding pb-4">
+    <h4 class="my-3 mb-4 title uch-txt--primary">
+      Comidas
+    </h4>
+
+    <food-list></food-list>
+  </article>
+
+  <section class="w-full main-padding my-6">
+    <app-register-form></app-register-form>
+  </section>
+</ion-content>

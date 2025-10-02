@@ -1,0 +1,8 @@
+{
+  "name": "CochaTurismo",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "934a2dbb"
+}

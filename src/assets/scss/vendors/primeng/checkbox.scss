@@ -1,0 +1,9 @@
+.p-checkbox .p-checkbox-box.p-highlight {
+  border-color: var(--ion-color-primary) !important;
+  background: var(--ion-color-primary) !important;
+}
+
+.p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-focus {
+  box-shadow: none !important;
+  border-color: var(--ion-color-primary) !important;
+}

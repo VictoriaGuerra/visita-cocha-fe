@@ -1,0 +1,63 @@
+<article *ngIf="itemList"
+         (panleft)="scrollLeft($event)"
+         (panright)="scrollRight($event)">
+  <section id="itemsContainer"
+           *ngIf="itemList.length > 0">
+    <ng-container [ngSwitch]="module">
+      <section class="relative">
+        <div #itemsContainer
+             *ngSwitchCase="'attractions'"
+             class="attractionsItemsContainer w-full uch-scroll flex overflow-auto gap-3 md:gap-4 fadein animation-duration-300 pb-5 pt-2">
+          <location-card *ngFor="let location of itemList"
+                         [location]="location"
+                         [module]="'attractions'">
+          </location-card>
+        </div>
+      
+        <div #itemsContainer
+             *ngSwitchCase="'restaurants'"
+             class="restaurantsItemsContainer w-full uch-scroll flex overflow-auto gap-3 md:gap-4 fadein animation-duration-300 pb-5 pt-2">
+             <location-card *ngFor="let location of itemList"
+                            [location]="location"
+                            [module]="'restaurants'">
+             </location-card>
+        </div>
+      
+        <section class="hidden md:flex md:absolute fadeinright align-items-center justify-content-end right-0 xl:-mr-3 top-50 z-4 -mt-4 border-circle p-2 uch-bg--white cursor-pointer shadow-3"
+                 (click)="slideFromArrow(350)"
+                 [@fadeOut]>
+          <i class="pi pi-arrow-right uch-txt--primary m-auto text-xl"></i>
+        </section>
+
+        <section class="hidden md:flex md:absolute fadeinleft align-items-center justify-content-start left-0 xl:-ml-3 top-50 z-4 -mt-4 border-circle p-2 uch-bg--white cursor-pointer shadow-3"
+                 (click)="slideFromArrow(-350)"
+                 [@fadeOut]>
+          <i class="pi pi-arrow-left uch-txt--primary m-auto text-xl"></i>
+        </section>
+      </section>
+    </ng-container>
+  </section>
+</article>
+
+<article *ngIf="itemList === null"
+         class="py-3 w-full uch-scroll flex overflow-auto gap-3 md:gap-4 fadein animation-duration-300">
+  <section *ngFor="let item of [1,1,1,1]"
+           class="w-11rem">
+    <section class="w-full h-13rem border-round-xl overflow-hidden">
+      <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+    </section>
+
+    <h3>
+      <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+    </h3>
+
+    <p>
+      <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
+    </p>
+  </section>
+</article>
+
+<article *ngIf="itemList?.length === 0"
+         class="my-6">
+  <app-empty-state [emptyObject]="emptyState"></app-empty-state>
+</article>

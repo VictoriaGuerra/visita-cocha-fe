@@ -1,0 +1,64 @@
+<article *ngIf="item" class="w-full uch--txt--black flex flex-column gap-3 pb-3">
+  <h3 *ngIf="item?.name" class="uch-txt-title title uch-txt--primary uch--ellipsis-2 font-semibold my-0"
+    style="letter-spacing: 3px;">
+    {{ item.name }}
+  </h3>
+
+  <section class="w-full relative">
+    <section *ngIf="item?.history_data?.photos?.now?.length > 0 && item?.history_data?.photos?.past?.length > 0"
+      class="w-full">
+      <p-carousel [numVisible]="1" [showNavigators]="false" [value]="combinedPhotos" class="w-full">
+        <ng-template pTemplate="item" let-photo class="w-full">
+          <img-comparison-slider class="max-h-15rem md:max-h-25rem overflow-hidden border-round-xl">
+            <img slot="first" [src]="photo.now" alt="Actual photo" class="h-full w-full" style="object-fit: cover;">
+            <img slot="second" [src]="photo.past" alt="Past photo" class="h-full w-full" style="object-fit: cover;">
+          </img-comparison-slider>
+        </ng-template>
+      </p-carousel>
+    </section>
+
+    <section class="w-full mt-3">
+      <p-carousel *ngIf="item?.history_data?.audios?.length > 0" [numVisible]="1" [value]="item?.history_data?.audios"
+        [showNavigators]="true" [showIndicators]="false">
+        <ng-template let-item pTemplate="item" class="w-full">
+          <audio controls class="w-full flex flex-grow-1">
+            <source [src]="item" type="audio/mpeg">
+            Your browser does not support the audio element.
+          </audio>
+        </ng-template>
+      </p-carousel>
+    </section>
+
+    <section class="w-full mt-3 line-height-3 text-sm md:text-base uch-txt--black-lighten text-justify font-light"
+      [innerHTML]="item?.history_data?.description">
+    </section>
+
+    <section *ngIf="item?.history_data?.providerLogo" class="w-full mt-5 flex flex-column gap-2 align-items-center">
+      <small class="uch-txt--black-lighten">Gracias a la contribución de</small>
+
+      <img [src]="item?.history_data?.providerLogo" alt="Provider logo">
+    </section>
+  </section>
+</article>
+
+<article *ngIf="!item" class="py-1">
+  <section class="h-2rem w-6">
+    <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+  </section>
+
+  <section class="w-3 mt-3">
+    <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+  </section>
+
+  <section class="h-20rem mt-3">
+    <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+  </section>
+
+  <section class="h-2rem mt-4">
+    <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+  </section>
+
+  <section class="h-5rem my-4">
+    <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+  </section>
+</article>

@@ -1,0 +1,13 @@
+ion-segment {
+  padding: 5px;
+  
+  ion-segment-button {
+    --indicator-box-shadow: none !important;
+    color: var(--ion-color-medium) !important;
+    min-width: 20px;
+  }
+}
+
+.segment-button-checked {
+  color: var(--ion-color-primary) !important;
+}

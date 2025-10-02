@@ -1,0 +1,33 @@
+<article class="terms w-full h-full page flex flex-column justify-content-between py-0 md:px-4">
+  <section class="w-full relative">
+    <h3 class="title my-0 font-bold sticky top-0 py-3">
+      Términos y condiciones
+    </h3>
+
+    <section class="terms__text h-full">
+      FALTA Terminar esto
+    </section>
+  </section>
+
+  <section class="w-full sticky bottom-0 pb-3 check-section">
+    <section class="w-full flex align-items-center my-3">
+      <p-checkbox [(ngModel)]="termsState"
+                  [binary]="true">
+      </p-checkbox>
+
+      <small class="w-full ml-2 cursor-pointer"
+             (click)="changeTermsState()">
+        He leído y acepto los términos y condiciones.
+      </small>
+    </section>
+
+    <section>
+      <ion-button fill="solid" color="primary"
+                  expand="block"
+                  [disabled]="!termsState"
+                  (click)="closeModal()">
+        Confirmar
+      </ion-button>
+    </section>
+  </section>
+</article>

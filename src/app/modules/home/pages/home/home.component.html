@@ -1,0 +1,136 @@
+<ion-toolbar></ion-toolbar>
+
+<ion-content scrollEvents="true"
+             (ionScroll)="onScroll($event)">
+  <section class="main-padding main-padding--no-x-padding">
+    <main-hero-page></main-hero-page>
+  </section>
+
+  <section *ngIf="queryList.length > 0"
+           class="main-padding mt-3 md:mt-5">
+    <list-title [title]="'Explora la ciudad'"
+                [css]="'uch-txt--primary'">
+    </list-title>
+  </section>
+
+  <section class="w-full main-padding main-padding--no-xend-padding mt-3 md:my-3 md:mb-5">
+    <category-list></category-list>
+  </section>
+
+  <!-- <section class="w-full main-padding my-3">
+    <main-itinerary></main-itinerary>
+  </section> -->
+
+  <section class="main-padding mt-1 md:mt-5">
+      <list-title [title]="'Próximos eventos'"
+                  [icon]="'calendar-outline'"
+                  [css]="'uch-txt--secondary'"
+                  [showLine]="true">
+      </list-title>
+  </section>
+  
+  <section class="w-full main-padding mb-4 mt-2 md:my-4">
+    <event-list></event-list>
+  </section>
+
+  <section class="w-full main-padding my-4">
+    <app-register-form></app-register-form>
+  </section>
+
+  <section *ngIf="queryList.length > 0"
+           class="main-padding">
+    <list-title [title]="'Turismo'"
+                [description]="'Descubre emocionantes atracciones turísticas y vive la experiencia cochabambina'"
+                [icon]="'airplane-outline'"
+                [route]="'/attractions'"
+                [showLine]="true"
+                [css]="'uch-txt--secondary'">
+    </list-title>
+  </section>
+
+  <section class="main-padding main-padding--no-xend-padding pb-4 md:pb-6 pt-2">
+    <item-list [module]="'attractions'"
+               [queryList]="queryList">
+    </item-list>
+  </section>
+
+  <section *ngIf="queryList.length > 0"
+           class="main-padding pt-4 md:pt-6 uch-bg--grey-lighten">
+    <list-title [title]="'Gastronomía'"
+                [description]="'Somos capital Gastronómica del país, experimenta nuestros sabores únicos'"
+                [icon]="'fast-food-outline'"
+                [route]="'/restaurants'"
+                [css]="'uch-txt--secondary'">
+    </list-title>
+  </section>
+
+  <section class="main-padding main-padding--no-xend-padding pb-4 md:pb-6 pt-2 uch-bg--grey-lighten">
+    <item-list [module]="'restaurants'"
+               [queryList]="queryList">
+    </item-list>
+
+    <article class="w-full pb-4 mt-2">
+      <h4 class="mb-4 title uch-txt--primary">
+        Comidas
+      </h4>
+
+      <food-list></food-list>
+    </article>
+  </section>
+
+  <section class="w-full main-padding mb-6">
+    <news-list></news-list>
+  </section>
+
+  <section class="w-full main-padding py-6 uch-bg--grey-lighten">
+    <h4 class="mb-4 title uch-txt--primary"> 
+      Consulta el tráfico de la ciudad 
+    </h4>
+    
+    <iframe allowfullscreen=""
+            class="waze-iframe border-round shadow-1"
+            src="https://embed.waze.com/es/iframe?zoom=15&amp;lat=-17.39243457&amp;lon=-66.15810075&amp;ct=livemap">
+    </iframe>
+
+    <section *ngIf="!publicMode"
+             class="uch-bg--yellow mt-6 border-round-xl p-3">
+      <list-title [title]="'Verificador de Taxi seguro'"
+                  [description]="'Consulta la placa de un taxi y comprueba si pertenece a Taxi Seguro!'"
+                  [icon]="'car-outline'"
+                  [css]="'uch-txt--primary'"
+                  [cssText]="'uch-txt--white'">
+      </list-title>
+
+      <section>
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+
+          <input pInputText 
+                 type="text"
+                 class="p-inputtext-sm my-3 border-round-2xl"
+                 placeholder="Ejm: 1402DHR"
+                 [(ngModel)]="plate"/>
+        </span>
+
+        <ion-button color="primary"
+                    expand="block"
+                    size="small"
+                    class="w-fit"
+                    [disabled]="plate === ''"
+                    (click)="verifyTaxi()">
+          Consultar
+        </ion-button>
+      </section>
+    </section>
+  </section>
+
+  <app-footer></app-footer>
+</ion-content>
+
+<style>
+  .waze-iframe {
+    width: 100%;
+    min-height: 500px;
+    border: none;
+  }
+</style>

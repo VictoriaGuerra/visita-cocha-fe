@@ -1,0 +1,12 @@
+.terms {
+  overflow: auto;
+  color: var(--ion-text-color);
+
+  h3, .check-section {
+    background-color: var(--ion-color-dark-contrast);
+  }
+
+  &_text {
+    color: var(--ion-text-color);
+  }
+}

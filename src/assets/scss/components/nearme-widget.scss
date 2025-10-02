@@ -1,0 +1,10 @@
+.nearme-widget--clear {
+  ion-chip {
+    border: none;
+  }
+}
+
+.line-selected {
+  color: white;
+  background: var(--#{$app-prefix}-color-secondary) !important;
+}

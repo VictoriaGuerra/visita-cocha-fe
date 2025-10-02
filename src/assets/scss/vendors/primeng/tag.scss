@@ -1,0 +1,23 @@
+.p-tag.p-tag-warning {
+  background-color: var(--#{$app-prefix}-color-yellow) !important;
+}
+
+.p-tag {
+  font-weight: 300!important;
+  border-radius: 25px !important;
+}
+
+.p-tag--secondary {
+  .p-tag {
+    background-color: var(--#{$app-prefix}-color-secondary) !important;
+    padding: .15rem .5rem !important;
+    letter-spacing: 1px;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .p-tag {
+    font-size: 0.7rem !important;
+    padding: 0.15rem 0.3rem !important;
+  }
+}

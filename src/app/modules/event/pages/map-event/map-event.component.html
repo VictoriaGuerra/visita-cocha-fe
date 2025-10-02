@@ -1,0 +1,66 @@
+<ion-content scrollEvents="true">
+  <article class="h-screen w-screen uch-bg--grey-lighten">
+    <section class="relative">
+      <div id="map"
+           class="w-full"
+           [style]="{'height':'100vh'}">
+      </div>
+
+      <section *ngIf="!position"
+               class="fixed bottom-0 right-0 mb-3 mr-3"
+               style="z-index: 999;">
+        <ion-button class="w-fit border-circle"
+                    color="secondary"
+                    (click)="getLocation()">
+          <ion-icon slot="icon-only"
+                    name="locate-outline">
+          </ion-icon>
+        </ion-button>
+      </section>
+
+      <section *ngIf="position"
+               class="fixed bottom-0 right-0 mb-3 mr-3"
+               style="z-index: 999;">
+        <ion-button class="w-fit border-circle"
+                    color="secondary"
+                    (click)="setMapPosition()">
+          <ion-icon slot="icon-only"
+                    name="navigate-outline">
+          </ion-icon>
+        </ion-button>
+      </section>
+
+      <section class="hidden md:block bg-white shadow-3 fixed bottom-0 left-0 mb-3 ml-3 border-round-xl"
+               style="z-index: 999;">
+        <app-info-map-event [data]="getLineInfo()"></app-info-map-event>
+      </section>
+
+      <section class="fixed md:hidden bottom-0 right-0 mb-8 mr-3"
+               style="z-index: 999;">
+        <ion-button color="secondary"
+                    (click)="openInfoModal()">
+          <ion-icon name="information-circle-outline">
+          </ion-icon>
+        </ion-button>
+      </section>
+
+      <section *ngIf="list.length > 0"
+               class="w-full left-0 fixed top-0 right-0 pt-7 pl-3"
+               style="z-index: 999;"
+               (panleft)="scrollLeft($event)"
+               (panright)="scrollRight($event)">
+        <div #linesContainer
+             class="uch-scroll flex gap-3 pb-3">
+          <div class="line cursor-pointer px-2 py-1 shadow-3 uch-bg--grey-lighten ion-text-capitalize border-round-xl"
+               *ngFor="let item of list, index as i"
+               (click)="loadGeoJsonLine(i)">
+            <span class="text-sm">Línea</span> 
+            <span class="font-semibold text-lg">
+              {{item.name}}
+            </span>
+          </div>
+        </div>
+      </section>
+    </section>
+  </article>
+</ion-content>

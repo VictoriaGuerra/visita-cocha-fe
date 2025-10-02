@@ -1,0 +1,24 @@
+<article class="w-full flex flex-column gap-4"
+         [ngClass]="{'py-4 border-top-2 border-gray-300': item?.schedule || item?.accessibility !== ''}">
+    <p-accordion *ngIf="item?.schedule"
+                 class="p-accordion--no-border"
+                 [expandIcon]="'pi pi-clock'">
+      <p-accordionTab header="Horarios">
+        {{ item?.schedule }}
+      </p-accordionTab>
+    </p-accordion>
+
+    <div *ngIf="item?.schedule && item?.accessibility !== ''"
+         class="border-top-2 border-gray-300">
+    </div>
+
+    <p-accordion *ngIf="item?.accessibility && item?.accessibility !== ''"
+                 class="p-accordion--no-border"
+                 [expandIcon]="'pi pi-car'">
+      <p-accordionTab header="Accesibilidad">
+        <section class="line-height-3 text-sm md:text-base uch-txt--black-lighten text-justify font-light">
+          {{item?.accessibility}}
+        </section>
+      </p-accordionTab>
+    </p-accordion>
+</article>

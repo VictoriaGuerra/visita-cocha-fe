@@ -1,0 +1,26 @@
+.delete-confirm-btn {
+  background: var(--ion-color-danger) !important;
+  border: 1px solid var(--ion-color-danger) !important;
+}
+
+.delete-confirm-btn--primary {
+  background: var(--ion-color-primary) !important;
+  border: 1px solid var(--ion-color-primary) !important;
+}
+
+.delete-reject-btn {
+  color: var(--ion-color-medium) !important;
+  background: var(--ion-color-light) !important;
+  border: 1px solid var(--ion-color-light) !important;
+}
+
+.delete-confirm-btn,
+.delete-reject-btn {
+  &:focus {
+    box-shadow: none !important;
+  }
+}
+
+.p-confirm-popup:after {
+  border-bottom-color: #f4f5f8 !important;
+}

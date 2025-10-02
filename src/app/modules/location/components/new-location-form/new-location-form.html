@@ -1,0 +1,105 @@
+<form [formGroup]="locationForm">
+  <section class="w-full overflow-auto">
+    <section class="mb-3">
+      <span class="font-semibold uch-txt--black">
+        ¿Que tipo de lugar es?
+      </span>
+    </section>
+
+    <ion-segment class="w-fit"
+                 color="primary"
+                 [(ngModel)]="selectedTab"
+                 (ionChange)="changeTab($event)"
+                 formControlName="type">
+      <ion-segment-button value="attractions">
+        <ion-label> Turístico </ion-label>
+      </ion-segment-button>
+
+      <ion-segment-button value="restaurants">
+        <ion-label> Gastronómico </ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </section>
+
+  <section class="mt-4 flex flex-column gap-4">
+    <section>
+      <span class="font-semibold uch-txt--black">
+        ¿A que categoría pertenece?
+      </span>
+
+      <p-multiSelect *ngIf="categoryList"
+                     display="chip"
+                     [options]="categoryList"
+                     optionLabel="name"
+                     optionValue="id"
+                     class="mt-3"
+                     placeholder="Selecciona una categoría"
+                     formControlName="categories">
+      </p-multiSelect>
+
+      <section *ngIf="!categoryList"
+               class="mt-3">
+        <i class="pi pi-spin pi-spinner uch-txt--primary">
+        </i>
+      </section>
+    </section>
+
+    <section>
+      <span class="font-semibold uch-txt--black">
+        Nombre del lugar
+      </span>
+
+      <input type="text"
+             class="mt-3"
+             placeholder="Ejm: Torre Eiffel"
+             formControlName="name"
+             pInputText/>
+    </section>
+
+    <section>
+      <span class="font-semibold uch-txt--black">
+        Correo electrónico
+      </span>
+
+      <input type="text"
+             class="mt-3"
+             placeholder="Ejm: serviceclients@toureiffel.paris"
+             formControlName="email"
+             pInputText/>
+    </section>
+
+    <section>
+      <span class="font-semibold uch-txt--black">
+        Link de Google Maps
+      </span>
+
+      <input type="text"
+             class="mt-3"
+             placeholder="Ejm: https://goo.gl/maps/2cVN5KXsE2ouckgPA"
+             formControlName="gmaplink"
+             pInputText/>
+    </section>
+
+    <section>
+      <span class="font-semibold uch-txt--black">
+        Sitio web
+      </span>
+
+      <input type="text"
+             class="mt-3"
+             placeholder="Ejm: https://www.toureiffel.paris/es"
+             formControlName="url"
+             pInputText/>
+    </section>
+  </section>
+
+  <section class="w-full flex justify-content-end mt-3">
+    <ion-button fill="solid"
+                color="primary"
+                expand="block"
+                [disabled]="locationForm.invalid"
+                (click)="submitForm()">
+      Continuar
+    </ion-button>
+  </section>
+</form>

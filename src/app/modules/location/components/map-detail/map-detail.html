@@ -1,0 +1,38 @@
+<article *ngIf="item?.location"
+         class="py-4 border-top-2 border-bottom-2 border-gray-300">
+  <p-accordion class="p-accordion--no-border"
+               [expandIcon]="'pi pi-map-marker'">
+    <p-accordionTab header="Encuéntranos en el mapa">
+      <section *ngIf="item?.location?.coords"
+               class="uch-map-container relative border-round-xl overflow-hidden">
+        <div id="mapDetail-{{item.id}}"
+             [ngClass]="{'pointer-events-none': isMapHidden}"
+             [style]="{'height':'380px'}"
+             class="w-full shadow-2 z-3">
+        </div>
+      
+        <section *ngIf="isMapHidden"
+                 class="w-full h-full absolute top-0 bottom-0 p-3 z-4 bg-black-alpha-50 flex justify-content-center align-items-end">
+          <ion-button color="secondary"
+                      expand="block"
+                      size="small"
+                      class="opacity-80">
+            Pulsa para ver
+          </ion-button>
+        </section>
+      </section>
+
+      <section *ngIf="item?.location?.address"
+               class="flex align-items-center gap-1 uch-txt--black pt-3">
+        <span class="uch--ellipsis uch-txt--black-lighten cursor-pointer text-sm flex flex-wrap align-items-center"
+              (click)="openGmapLink()">
+          <strong class="uch-txt--black-lighten mr-1">Dirección: </strong> {{ item.location.address }}
+
+          <ion-icon name="open-outline"
+                    class="text-xl uch-txt--black-lighten ml-1">
+          </ion-icon>      
+        </span>
+      </section>
+    </p-accordionTab>
+  </p-accordion>
+</article>

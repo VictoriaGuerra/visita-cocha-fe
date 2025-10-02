@@ -1,0 +1,11 @@
+//----------------------------------------------------------
+// DEFAULT THEME
+//----------------------------------------------------------
+
+:root {
+  /** COLORS **/
+  @each $name, $color in $colors {
+    --#{$app-prefix}-color-#{$name + ""}: #{$color};
+    --#{$app-prefix}-color-#{$name + ""}-rgb: #{colorToRgbCodes($color)};
+  }
+}

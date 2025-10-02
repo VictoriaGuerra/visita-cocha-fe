@@ -1,0 +1,32 @@
+<article class="w-full p-5 fadein animation-duration-1000">
+  <section class="w-full flex flex-column align-items-center justify-content-start gap-3">
+    <h4 class="text-xl uch-txt--black mb-1">
+      Información
+    </h4>
+
+    <p *ngIf="data.text"
+       class="md:w-16rem uch-txt--black-lighten text-sm">
+      {{ data.text }}
+    </p>
+
+    <section class="w-full flex align-items-center gap-3"
+             *ngFor="let item of data.infoList">
+      <img *ngIf="data.infoList[0].name"
+           class="h-2rem w-auto"
+           [src]="item.icon.options.iconUrl"
+           alt="Icon">
+      
+      <small *ngIf="data.infoList[0].name"
+             class="text-lg uch-txt--black-lighten">
+        {{ item.name }}
+      </small>
+    </section>
+
+    <section *ngIf="data?.rutes?.length > 0"
+             class="w-full">
+      <section *ngFor="let item of data?.rutes">
+        {{item}}
+      </section>
+    </section>
+  </section>
+</article>

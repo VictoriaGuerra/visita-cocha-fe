@@ -1,0 +1,103 @@
+<article *ngIf="item"
+         class="w-full uch--txt--black flex flex-column gap-3 pb-3">
+  <h3 *ngIf="item?.name"
+      class="uch-txt-title title uch-txt--primary uch--ellipsis-2 font-semibold my-0"
+      style="letter-spacing: 3px;">
+    {{ item.name }}
+  </h3>
+
+  <section class="w-full relative">
+    <section class="w-full relative"
+             [ngClass]="{'w-fit': item?.coverUrl}">
+      <img *ngIf="item?.coverUrl"
+           [src]="item.coverUrl"
+           alt="Item photo"
+           class="h-auto md:h-20rem w-full md:w-auto shadow-1 border-round-xl fadein animation-duration-500
+           "
+           [ngClass]="{'hidden': isLoading}"
+           (load)="onImageLoad()"
+           (error)="onImageLoadWithError()">
+
+      <div *ngIf="item?.coverUrl === ''"
+           class="h-15rem w-full shadow-1 border-round-xl bg-black-alpha-10 flex align-items-center justify-content-center">
+        <ion-icon name="image-outline"
+                  class="text-7xl uch-txt--black-lighten">
+        </ion-icon>
+      </div>
+
+      <section *ngIf="item?.isFeatured && !isLoading"
+               class="absolute top-0 right-0 mt-2 mr-2">
+        <p-tag class="p-tag--secondary capitalize"
+               value="Recomendado"
+               severity="primary">
+        </p-tag>
+      </section>
+    </section>
+
+    <section *ngIf="isLoading && item?.coverUrl !== ''"
+             class="h-15rem md:h-20rem w-full relative">
+      <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+
+            <section *ngIf="item?.isFeatured"
+               class="absolute top-0 right-0 mt-2 mr-2">
+        <p-tag class="p-tag--secondary capitalize"
+               value="Recomendado"
+               severity="primary">
+        </p-tag>
+      </section>
+    </section>
+  </section>
+
+  <section>
+    <section class="flex justify-content-between align-items-center">
+      <section *ngIf="item?.rating"
+               class="text-base flex flex-column gap-2 uch-txt--black font-semibold">
+        <p-rating [(ngModel)]="item.rating"
+                  [readonly]="true"
+                  [cancel]="false">
+        </p-rating>
+      </section>
+
+      <ion-icon name="share-social-outline"
+                class="text-3xl cursor-pointer uch-txt--grey"
+                (click)="sharedLink()">
+      </ion-icon>
+    </section>
+
+    <section *ngIf="item?.description"
+             class="mt-4">
+      <p-accordion class="p-accordion--no-border"
+                   [expandIcon]="'pi pi-info-circle'">
+        <p-accordionTab header="Información">
+          <p class="text-sm md:text-base uch-txt--black-lighten text-justify line-height-3 font-light"
+             style="letter-spacing: 1px;">
+            {{ item.description }}
+          </p>
+        </p-accordionTab>
+      </p-accordion>
+    </section>
+  </section>
+</article>
+
+<article *ngIf="!item"
+         class="py-1">
+  <section class="h-2rem w-6">
+    <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+  </section>
+
+  <section class="w-3 mt-3">
+    <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+  </section>
+
+  <section class="h-20rem mt-3">
+    <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+  </section>
+
+  <section class="h-2rem mt-4">
+    <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+  </section>
+
+  <section class="h-5rem my-4">
+    <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+  </section>
+</article>

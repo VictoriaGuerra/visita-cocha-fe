@@ -1,0 +1,57 @@
+.p-accordion-filter {
+  .p-accordion .p-accordion-header .p-accordion-header-link {
+    padding-top: 0;
+    padding-bottom: 0;
+    font-weight: 500;
+  }
+
+  .p-accordion .p-accordion-content {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+.p-accordion--no-border {
+  .p-accordion .p-accordion-header .p-accordion-header-link {
+    padding-top: 0;
+    padding-bottom: 0;
+    font-weight: 500;
+  }
+
+  .p-accordion .p-accordion-content {
+    border: none !important;
+  }
+}
+
+.p-accordion--no-padding-top {
+  .p-accordion .p-accordion-content {
+    padding-top: 0;
+  }
+}
+
+.p-accordion .p-accordion-header .p-accordion-header-link {
+  padding: 1.25rem;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  border: none !important;
+  color: #6c757d;
+  background: transparent !important;
+}
+
+.p-accordion .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link {
+  color: var(--#{$app-prefix}-color-secondary) !important;
+}
+
+.p-accordion .p-accordion-header:not(.p-disabled) .p-accordion-header-link:focus {
+  box-shadow: none !important;
+}
+
+.p-accordion .p-accordion-content {
+  padding: 1.25rem;
+  padding-left: .5rem !important;
+  padding-right: .5rem !important;
+  border-right: 0 !important;
+  border-left: 0 !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+}

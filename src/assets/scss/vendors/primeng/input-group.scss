@@ -1,0 +1,19 @@
+.p-inputgroup {
+  input {
+    width: 100%;
+    border: 1px solid #ced4da !important;
+    outline: none !important;
+    padding-left: 0.5rem;
+    height: 44px;
+    border-bottom-left-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+
+    &::shadow {
+      box-shadow: none !important;
+    }
+  }
+
+  .p-component {
+    width: 100% !important;
+  }
+}

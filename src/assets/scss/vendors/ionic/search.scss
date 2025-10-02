@@ -1,0 +1,40 @@
+.searchbar-search-icon.sc-ion-searchbar-ios {
+  color: var(--ion-color-primary);
+}
+
+.searchbar-input.sc-ion-searchbar-ios {
+  color: var(--ion-color-black);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.03), 0px 0px 2px rgba(0, 0, 0, 0.06),
+    0px 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.searchbar-input.sc-ion-searchbar-ios {
+  input::placeholder {
+    color: var(--ion-color-black);
+  }
+}
+
+.uch-search--clear {
+  ion-searchbar {
+    --color: var(--#{$app-prefix}-color-grey) !important;
+    --clear-button-color:  var(--#{$app-prefix}-color-secondary) !important;
+    --border-radius: 0px;
+
+    input {
+      background: rgba(var(--#{$app-prefix}-color-white-rgb), .1) !important;
+      box-shadow: none !important;
+      border-top: none !important;
+      border-right: none !important;
+      border-left: none !important;
+      border-color: rgba(var(--#{$app-prefix}-color-black-rgb), .2) !important;
+
+      &::placeholder {
+        color: var(--#{$app-prefix}-color-grey) !important;
+      }
+    }
+
+    .searchbar-search-icon.sc-ion-searchbar-ios {
+      color: var(--#{$app-prefix}-color-grey) !important;
+    }
+  }
+}

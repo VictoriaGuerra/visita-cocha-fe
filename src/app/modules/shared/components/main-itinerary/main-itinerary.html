@@ -1,0 +1,63 @@
+<section *ngIf="mainItinerary?.title"
+         class="shadow-1 flex flex-column md:flex-row gap-3 align-items-center border-round-2xl uch-bg--grey-lighten p-2 relative">
+  <section class="w-full overflow-hidden relative md:w-17rem h-8rem shadow-1 border-round-2xl bg-cover flex flex-column gap-1 justify-content-start align-items-center tpl-snow"
+           style="background-image: url({{mainItinerary.coverUrl}});">
+    <h4 class="uch-txt--white text-center font-light pt-2 mb-0">
+      {{mainItinerary.title}} <br>
+
+      <section class="text-4xl mt-1 font-semibold">
+        2024
+      </section>
+    </h4>
+
+    <ion-badge class="p-1 shadow-1"
+               color="secondary">
+      {{mainItinerary.duration}}
+    </ion-badge>
+
+    <div *ngFor="let item of [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]"></div>
+  </section>
+
+  <section class="w-fit">
+    <div class="uch-txt--black-lighten w-fit">
+      <p class="md:pr-1 text-justify text-sm md:text-md">
+        {{mainItinerary.description}} 
+
+        <span *ngIf="mainItinerary?.eventList?.length > 5">
+          Más de {{mainItinerary.eventList.length}} eventos...
+        </span>
+      </p>
+    </div>
+
+    <section class="w-full flex gap-2">
+      <ion-button *ngIf="mainItinerary.slug"
+                  color="primary"
+                  expand="block"
+                  size="small"
+                  class="w-fit mt-3"
+                  routerLink="event/{{mainItinerary.slug}}">
+        Ver agenda
+      </ion-button>
+
+      <ion-button *ngIf="mainItinerary.slug"
+                  color="primary"
+                  expand="block"
+                  size="small"
+                  fill="outline"
+                  class="w-fit mt-3"
+                  routerLink="map/event/{{mainItinerary.slug}}">
+        Como llegar
+      </ion-button>
+
+      <ion-button *ngIf="!mainItinerary.slug && mainItinerary.link"
+                  color="primary"
+                  expand="block"
+                  size="small"
+                  class="w-fit mt-3"
+                  [href]="mainItinerary.link"
+                  [target]="'_blank'">
+        Ver novedades
+      </ion-button>
+    </section>
+  </section>
+</section>

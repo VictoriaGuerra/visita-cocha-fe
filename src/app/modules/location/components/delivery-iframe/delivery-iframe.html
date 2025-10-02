@@ -1,0 +1,37 @@
+<div *ngIf="link"
+     class="embed-container shadow-1">
+  <iframe [src]="link | safeUrl"></iframe>
+
+  <div class="embed-container__button p-1">
+    <ion-button (click)="closeModal()"
+                color="primary"
+                expand="block"
+                class="w-full">
+      Cerrar
+    </ion-button>
+  </div>
+</div>
+
+<!-- 
+<article *ngIf="!item"
+         class="py-1">
+  <section class="h-2rem w-6">
+    <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+  </section>
+
+  <section class="w-3 mt-3">
+    <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+  </section>
+
+  <section class="h-20rem mt-3">
+    <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+  </section>
+
+  <section class="h-2rem mt-4">
+    <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+  </section>
+
+  <section class="h-5rem my-4">
+    <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+  </section>
+</article> -->

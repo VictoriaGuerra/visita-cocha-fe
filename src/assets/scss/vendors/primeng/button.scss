@@ -1,0 +1,8 @@
+.p-button:focus {
+  box-shadow: none !important;
+}
+
+.p-dialog .p-dialog-footer button {
+  background: var(--#{$app-prefix}-color-primary) !important;
+  border: none !important;
+}

@@ -1,0 +1,45 @@
+<article class="w-full md:w-6 xl:w-4 mx-auto right-0 left-0 fixed bottom-0 fadeindown animation-duration-300 uch-bg--white md:bg-transparent shadow-4 md:shadow-none">
+  <section class="w-full flex align-items-center justify-content-between h-4rem uch-bg--white md:shadow-4 md:mb-3 md:border-round-3xl relative mx-auto">
+    <section class="w-4 flex justify-content-center">
+      <section routerLink="attractions"
+               [routerLinkActive]="'active-link-2'"
+               class="cursor-pointer flex flex-column align-items-center">
+        <ion-icon name="airplane-outline"
+                  class="text-xl uch-txt--black-lighten">
+        </ion-icon>
+
+        <small class="uch-txt--black-lighten mt-1">
+          Turismo
+        </small>
+      </section>
+    </section>
+
+    <section class="w-4 flex justify-content-center">
+      <section routerLink="restaurants"
+               [routerLinkActive]="'active-link-2'"
+               class="cursor-pointer flex flex-column align-items-center">
+        <ion-icon name="fast-food-outline"
+                  class="text-xl uch-txt--black-lighten">
+        </ion-icon>
+
+        <small class="uch-txt--black-lighten mt-1">
+          Gastronomía
+        </small>
+      </section>
+    </section>
+
+    <section class="w-4 flex justify-content-center">
+      <section routerLink="/map/view"
+               [routerLinkActive]="'active-link-2'"
+               class="cursor-pointer flex flex-column align-items-center">
+        <ion-icon name="map-outline"
+                  class="text-xl uch-txt--black-lighten">
+        </ion-icon>
+
+        <small class="uch-txt--black-lighten mt-1">
+          Mapa
+        </small>
+      </section>
+    </section>
+  </section>
+</article>

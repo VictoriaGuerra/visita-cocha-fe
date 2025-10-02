@@ -1,0 +1,29 @@
+.p-tabmenu .p-tabmenu-nav .p-tabmenuitem .p-menuitem-link {
+  color: var(--ion-color-medium) !important;
+  font-weight: 400 !important;
+  padding: 1rem!important;
+}
+
+.p-tabmenu .p-tabmenu-nav .p-tabmenuitem.p-highlight .p-menuitem-link {
+  border-color: var(--#{$app-prefix}-color-primary) !important;
+  color: var(--#{$app-prefix}-color-primary) !important;
+  font-weight: 500 !important;
+  background: rgba(var(--ion-color-primary-rgb), .04) !important;
+}
+
+.p-tabmenu .p-tabmenu-nav .p-tabmenuitem .p-menuitem-link:not(.p-disabled):focus {
+  box-shadow: none !important;
+}
+
+.p-tabmenu .p-tabmenu-nav-btn.p-link {
+  animation: appear .1s;
+  color: var(--#{$app-prefix}-color-black-lighten) !important;;
+  width: 1.5rem !important;
+  color: rgb(222, 226, 230);
+}
+
+@media screen and (max-width: 1200px) {
+  .p-tabmenu .p-tabmenu-nav .p-tabmenuitem .p-menuitem-link {
+    padding: .7rem .5rem !important;
+  }
+}

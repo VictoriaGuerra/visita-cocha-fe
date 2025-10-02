@@ -1,0 +1,24 @@
+.p-inputtext {
+  width: 100%;
+}
+
+.p-multiselect {
+  width: 100% ;
+}
+
+.p-multiselect.p-multiselect-chip .p-multiselect-token {
+  color: var(--ion-color-primary) !important;
+  background: rgba(var(--ion-color-primary-rgb), .1) !important;
+}
+
+.p-multiselect:not(.p-disabled):hover {
+  border-color: var(--ion-color-primary) !important;
+}
+
+.focus-visible {
+  box-shadow: none !important;
+
+  &:focus {
+    box-shadow: none !important;
+  }
+}

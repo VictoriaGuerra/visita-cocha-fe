@@ -1,0 +1,22 @@
+<article class="w-full h-full flex flex-column align-items-center justify-content-center fadein animation-duration-1000">
+  <section class="h-10rem">
+    <ion-img [src]="emptyObject?.imgUrl"
+             class="w-full h-full">
+    </ion-img>
+  </section>
+
+  <ion-text color="medium">
+    <p class="w-8 mx-auto text-center">
+      {{ emptyObject?.message }}
+    </p>
+  </ion-text>
+
+  <ion-button fill="solid"
+              color="primary"
+              class="mt-3"
+              size="small"
+              routerLink='{{ emptyObject?.link }}'
+              *ngIf="emptyObject?.link && emptyObject?.buttonText">
+    {{ emptyObject.buttonText }}
+  </ion-button>
+</article>

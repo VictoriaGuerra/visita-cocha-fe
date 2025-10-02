@@ -1,0 +1,7 @@
+<app-main-toolbar></app-main-toolbar>
+
+<ion-router-outlet id="main"></ion-router-outlet>
+
+<app-main-left-sidebar></app-main-left-sidebar>
+
+<main-tabs *ngIf="!backState && !tabState" [@fade]></main-tabs>

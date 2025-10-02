@@ -1,0 +1,101 @@
+<ion-toolbar></ion-toolbar>
+
+<ion-content scrollEvents="true" (ionScroll)="onScroll($event)">
+  <article class="w-full main-padding flex flex-column md:flex-row py-5">
+    <section class="md:w-8">
+      <section class="flex justify-content-between mb-3"
+               [ngClass]="{'text-white border-round-xl p-2': item?.history_data?.color}"
+               [ngStyle]="{'background-color': item?.history_data ? item?.history_data?.color : 'inherit'}">
+        <div class="w-fit flex gap-1 align-items-center cursor-pointer"
+             (click)="location.back()">
+          <ion-icon name="chevron-back-outline"
+                    class="text-2xl -ml-1 uch-txt--black-lighten"
+                    [ngClass]="{'text-white': item?.history_data}">
+          </ion-icon>
+        
+          <span class="uch-txt-body uch-txt--grey text-sm capitalize"
+                style="letter-spacing: 1px;"
+                [ngClass]="{'text-white': item?.history_data}">
+            Volver
+          </span>
+        </div>
+
+        <section *ngIf="item?.history_data" class="flex align-items-center gap-2">
+          Historia
+          <ion-toggle [enableOnOffLabels]="true"
+                      color="warning"
+                      class="uch-bg--grey-lighten overflow-hidden border-round-3xl"
+                      [(ngModel)]="showHistory">
+          </ion-toggle>
+        </section>
+
+        <section *ngIf="item?.historyId && !item?.history_data"
+                 class="flex align-items-center gap-2 uch-txt--black-lighten">
+          Cargando
+          <i class="pi pi-spin pi-spinner"></i>
+        </section>
+      </section>
+      
+      <section *ngIf="!showHistory">
+        <hero-detail [item]="item"></hero-detail>
+
+        <contact-detail *ngIf="item?.contact" [item]="item"></contact-detail>
+
+        <information-detail *ngIf="item?.accessibility || item?.schedule" [item]="item">
+        </information-detail>
+
+        <map-detail *ngIf="item?.location.coords.lat && item?.location.coords.lng" [item]="item" [scrollY]="scrollY">
+        </map-detail>
+
+        <article *ngIf="item?.deliveryUrls?.length > 0" class="py-4 border-bottom-2 border-gray-300">
+          <p-accordion class="p-accordion--no-border" [expandIcon]="'pi pi-bell'">
+            <p-accordionTab header="Delivery">
+              <section class="flex flex-wrap gap-3 mt-2">
+                <ion-button *ngFor="let delivery of item?.deliveryUrls" (click)="openModal(delivery?.url)" class="w-fit"
+                  color="light">
+                  <img [src]="delivery?.imgUrl" [alt]="delivery?.name" class="w-5rem h-auto">
+                </ion-button>
+              </section>
+            </p-accordionTab>
+          </p-accordion>
+        </article>
+
+        <article *ngIf="item?.foods.length > 0" class="w-full py-4">
+          <h4 class="mb-4 title uch-txt--primary">
+            ¿Qué comida encuentro en {{ item?.name }}?
+          </h4>
+
+          <food-list [foodIdList]="item?.foods"></food-list>
+        </article>
+      </section>
+
+      <section *ngIf="showHistory">
+        <history-detail [item]="item"></history-detail>
+      </section>
+    </section>
+
+    <p-divider class="hidden md:block mx-3" [layout]="'vertical'">
+    </p-divider>
+
+    <section class="md:w-4 relative mt-4 md:mt-0">
+      <section class="flex flex-column gap-3 sticky top-0">
+        <news-list [vertical]="true"></news-list>
+      </section>
+    </section>
+  </article>
+
+  <article *ngIf="item?.mainCategories[0]"
+    class="main-padding main-padding--no-xend-padding py-6 uch-bg--grey-lighten border-top-1 border-bottom-1 border-gray-100">
+    <list-title [title]="'Búsquedas similares'" [css]="'uch-txt--primary'">
+    </list-title>
+
+    <section class="mt-4">
+      <item-list [module]="module"
+        [queryList]="[{field: 'mainCategories',operation: 'array-contains',value: item?.mainCategories[0]}]"
+        [excludeId]="item?.id">
+      </item-list>
+    </section>
+  </article>
+
+  <app-footer></app-footer>
+</ion-content>

@@ -1,0 +1,26 @@
+.p-badge {
+  background: var(--ion-color-primary) !important;
+  color: var(--ion-color-light) !important;
+  font-size: .6rem !important;
+  font-weight: 700 !important;
+  min-width: 1rem !important;
+  height: 1rem !important;
+  line-height: 1rem !important;
+}
+
+.p-overlay-badge .p-badge {
+  top: 3px !important;
+  right: 3px !important;
+}
+
+.p-tag.p-tag-warning {
+  background-color: var(--#{$app-prefix}-color-yellow) !important;
+  color: var(--#{$app-prefix}-color-black) !important;
+  font-weight: 400;
+}
+
+.p-tag.p-tag-success {
+  background-color: var(--#{$app-prefix}-color-green) !important;
+  color: var(--#{$app-prefix}-color-white) !important;
+  font-weight: 400;
+}

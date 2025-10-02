@@ -1,0 +1,32 @@
+<article *ngIf="item?.contact?.phone !== '' || item.contact?.mail !== '' || item.contact?.link !== ''"
+         class="w-full border-top-2 border-gray-300 py-4">
+  <p-accordion class="p-accordion--no-border"
+               [expandIcon]="'pi pi-id-card'">
+    <p-accordionTab header="Contacto">
+      <div class="w-full flex flex-column gap-4 mb-2 text-base">
+        <section *ngIf="item?.contact?.phone !== ''"
+                 class="w-fit flex align-items-center gap-2 cursor-pointer"
+                 (click)="callNumber()">
+          <ion-icon name="call-outline" class="text-xl uch-txt--primary"></ion-icon>
+          {{ item?.contact?.phone }}
+        </section>
+
+        <section *ngIf="item?.contact?.mail !== ''"
+                 class="w-fit flex align-items-center gap-2 cursor-pointer"
+                 (click)="sendMail()">
+          <ion-icon name="mail-outline" class="text-xl uch-txt--primary"></ion-icon>
+          {{ item?.contact?.mail }}
+        </section>
+
+        <section *ngIf="item?.contact?.link !== ''"
+                 class="w-fit flex align-items-center gap-2 cursor-pointer"
+                 (click)="openLink()">
+          <ion-icon name="link-outline" class="text-xl uch-txt--primary"></ion-icon>
+          <span class="uch--ellipsis">
+            Visitar página web
+          </span>
+        </section>
+      </div>
+    </p-accordionTab>
+  </p-accordion>
+</article>
