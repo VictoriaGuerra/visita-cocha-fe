@@ -1,8 +1,14 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { NotFoundPageComponent } from './modules/shared/components/not-found-page/not-found-page.component';
+import { AtractivosListComponent } from './pages/atractivos-list/atractivos-list.component';
 
 const routes: Routes = [
+  // PON LA RUTA DE ATRACTIVOS PRIMERO
+  {
+    path: 'atractivos',
+    component: AtractivosListComponent
+  },
   {
     path: '',
     loadChildren: () => import('./modules/home/home.module')
@@ -13,8 +19,17 @@ const routes: Routes = [
     loadChildren: () => import('./modules/map/map.module')
       .then(m => m.MapModule)
   },
+  // QUITA esta ruta duplicada con path vacío o cámbiala a otra ruta
+  // {
+  //   path: '',
+  //   loadChildren: () => import('./modules/location/location.module')
+  //     .then(m => m.LocationModule),
+  //   data: {
+  //     animated: false
+  //   }
+  // },
   {
-    path: '',
+    path: 'location',  // ← CAMBIA a 'location' en lugar de ''
     loadChildren: () => import('./modules/location/location.module')
       .then(m => m.LocationModule),
     data: {
@@ -39,9 +54,13 @@ const routes: Routes = [
     pathMatch: 'full'
   }
 ];
+
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, { 
+      preloadingStrategy: PreloadAllModules,
+      useHash: true  // ← AÑADE ESTO TEMPORALMENTE
+    })
   ],
   exports: [RouterModule]
 })

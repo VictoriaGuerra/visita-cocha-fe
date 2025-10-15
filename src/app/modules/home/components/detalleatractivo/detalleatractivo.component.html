@@ -1,0 +1,11 @@
+<div *ngIf="atractivo" class="detalle-container">
+  <h2>{{ atractivo.nombre }}</h2>
+  <img [src]="atractivo.imagen" alt="{{ atractivo.nombre }}" />
+  <p><strong>Ubicación:</strong> {{ atractivo.ubicacion }}</p>
+  <p><strong>Categoría:</strong> {{ atractivo.categoria }}</p>
+  <p>{{ atractivo.descripcion }}</p>
+</div>
+
+<div *ngIf="!atractivo">
+  <p>Cargando detalle del atractivo...</p>
+</div>

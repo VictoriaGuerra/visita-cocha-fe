@@ -1,0 +1,38 @@
+.cargando, .error, .vacio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  text-align: center;
+
+  ion-spinner, ion-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+  }
+}
+
+.error {
+  ion-icon {
+    color: var(--ion-color-danger);
+  }
+}
+
+.vacio {
+  ion-icon {
+    color: var(--ion-color-medium);
+  }
+}
+
+ion-thumbnail {
+  --size: 80px;
+  
+  img {
+    border-radius: 8px;
+    object-fit: cover;
+  }
+}
+
+ion-badge {
+  margin-top: 4px;
+}

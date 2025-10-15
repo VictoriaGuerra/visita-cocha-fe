@@ -1,0 +1,22 @@
+<div style="padding: 20px;">
+  <h1>Lista de Atractivos Turísticos</h1>
+  
+  <div *ngIf="cargando">
+    <p>Cargando...</p>
+  </div>
+
+  <div *ngIf="!cargando && atractivos.length > 0">
+    <div *ngFor="let atractivo of atractivos" style="border: 1px solid #ccc; padding: 10px; margin: 10px 0;">
+      <h3>{{ atractivo.nombre }}</h3>
+      <p>{{ atractivo.descripcion }}</p>
+      <p><strong>Ubicación:</strong> {{ atractivo.ubicacion }}</p>
+      <span style="background: blue; color: white; padding: 2px 8px; border-radius: 4px;">
+        {{ atractivo.categoria }}
+      </span>
+    </div>
+  </div>
+
+  <div *ngIf="!cargando && atractivos.length === 0">
+    <p>No hay atractivos</p>
+  </div>
+</div>

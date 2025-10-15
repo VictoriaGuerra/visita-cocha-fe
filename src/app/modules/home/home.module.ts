@@ -5,9 +5,15 @@ import { HomeComponent } from './pages/home/home.component';
 import { IonicModule } from '@ionic/angular';
 import { SharedModule } from '../shared/shared.module';
 
+// 👇 IMPORTA TUS COMPONENTES
+import { ListadoAtractivosComponent } from '../../componentes/listado-atractivos/listado-atractivos.component';
+import { DetalleAtractivoComponent } from './components/detalleatractivo/detalleatractivo.component';
+
 @NgModule({
   declarations: [
-    HomeComponent
+    HomeComponent,
+    ListadoAtractivosComponent, // 👈 AGREGA ESTE
+    DetalleAtractivoComponent   // 👈 Y ESTE
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,14 @@
+<div class="contenedor">
+  <h1>Atractivos Turísticos</h1>
+
+  <div *ngIf="atractivos.length === 0">Cargando atractivos...</div>
+
+  <div class="grid">
+    <div *ngFor="let a of atractivos" class="card" (click)="verDetalle(a.id)">
+      <img [src]="a.imagen" [alt]="a.nombre" />
+      <h2>{{ a.nombre }}</h2>
+      <p>{{ a.categoria }}</p>
+      <small>{{ a.ubicacion }}</small>
+    </div>
+  </div>
+</div>
