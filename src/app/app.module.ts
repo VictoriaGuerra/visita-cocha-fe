@@ -5,7 +5,7 @@ import {ScreenTrackingService, UserTrackingService} from '@angular/fire/analytic
 import {IonicModule, IonicRouteStrategy} from '@ionic/angular';
 import {SidebarModule} from 'primeng/sidebar';
 
-import {NgModule} from '@angular/core';
+import {NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule, HAMMER_GESTURE_CONFIG, HammerModule} from '@angular/platform-browser';
 import {RouteReuseStrategy} from '@angular/router';
@@ -45,6 +45,7 @@ import {environment} from '../environments/environment';
     ScreenTrackingService,
     UserTrackingService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {}

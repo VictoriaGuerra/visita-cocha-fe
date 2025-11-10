@@ -25,6 +25,41 @@
         </section>
       </section>
 
+      <!-- Weather card (top-left) -->
+      <section class="absolute top-0 left-0 mt-7 ml-4" style="z-index:999;">
+        <section *ngIf="weatherData" class="bg-white border-round-lg shadow-3 p-3">
+            <div class="flex align-items-center gap-3">
+              <img *ngIf="weatherData?.weather?.[0]?.icon" [src]="'https://openweathermap.org/img/wn/' + weatherData.weather[0].icon + '@2x.png'" alt="weather" class="w-12 h-12" />
+              <div>
+                <div class="font-semibold">
+                  {{ weatherData?.main?.temp }}°{{ weatherUnit === 'metric' ? 'C' : 'F' }}
+                  <small *ngIf="weatherData?._isMock" class="ml-1">(mock)</small>
+                </div>
+                <div class="text-sm text-600">{{ weatherData?.weather?.[0]?.description }}</div>
+                <div class="text-xs text-500 mt-1">
+                  Humedad: {{ weatherData?.main?.humidity }}% • Viento: {{ weatherData?.wind?.speed }} m/s
+                </div>
+                <div class="text-xs text-500 mt-1">
+                  <span *ngIf="weatherCached">Datos en caché</span>
+                  <span *ngIf="!weatherCached">Último: en vivo</span>
+                </div>
+              </div>
+
+              <div class="ml-3 flex flex-column gap-1">
+                <ion-button size="small" fill="clear" (click)="toggleWeatherUnit()">{{ weatherUnit === 'metric' ? 'Mostrar °F' : 'Mostrar °C' }}</ion-button>
+                <ion-button size="small" fill="clear" (click)="refreshWeather()">Actualizar</ion-button>
+              </div>
+            </div>
+          </section>
+      </section>
+
+      <!-- Route test button (top-right) -->
+      <section class="absolute top-0 right-0 mt-7 mr-4" style="z-index:999;">
+        <ion-button color="tertiary" size="small" (click)="loadRoute('sample-route.json')">
+          Cargar ruta de prueba
+        </ion-button>
+      </section>
+
       <section *ngIf="!position"
                class="fixed bottom-0 right-0 mb-3 mr-3"
                style="z-index: 999;">

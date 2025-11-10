@@ -18,7 +18,7 @@
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
-            "tsConfig": "",
+            "tsConfig": "tsconfig.app.json",
             "assets": [
               {
                 "glob": "**/*",
@@ -50,6 +50,12 @@
             "sourceMap": true,
             "optimization": false,
             "namedChunks": true
+          ,
+            "allowedCommonJsDependencies": [
+              "angularx-qrcode",
+              "leaflet",
+              "@cordobo/qrcode"
+            ]
           },
           "configurations": {
             "production": {
@@ -173,7 +179,8 @@
     }
   },
   "cli": {
-    "defaultCollection": "@ionic/angular-toolkit"
+    "defaultCollection": "@ionic/angular-toolkit",
+    "analytics": false
   },
   "schematics": {
     "@ionic/angular-toolkit:component": {

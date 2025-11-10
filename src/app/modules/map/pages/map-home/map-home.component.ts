@@ -4,6 +4,8 @@ import {Subject, takeUntil} from 'rxjs';
 import {AttractionRepositoryService} from 'src/app/modules/shared/services/attraction.service';
 import {RestaurantRepositoryService} from 'src/app/modules/shared/services/restaurant.service';
 import {StateService} from 'src/app/modules/shared/services/state.service';
+import { TransportService } from 'src/app/modules/shared/services/transport.service';
+import { WeatherService } from 'src/app/modules/shared/services/weather.service';
 import * as L from 'leaflet';
 import {ModalController} from '@ionic/angular';
 import {Consulates} from '../../constants/consulates';
@@ -36,6 +38,9 @@ export class MapHomeComponent implements OnInit, OnDestroy {
   
   public position: any;
   public isLoading!: any;
+  public weatherData: any = null;
+  public weatherUnit: 'metric' | 'imperial' = 'metric';
+  public weatherCached: boolean = false;
 
   public ref: DynamicDialogRef;
   
@@ -87,8 +92,38 @@ export class MapHomeComponent implements OnInit, OnDestroy {
               private _dialogService: DialogService,
               private _stateService: StateService,
               private _cdr: ChangeDetectorRef,
-              public router: Router) {
+              public router: Router,
+              private _transportService: TransportService,
+              private _weatherService: WeatherService) {
     this._unsubscribe = new Subject<void>();
+    const storedUnit = localStorage.getItem('weatherUnit');
+    if (storedUnit === 'imperial') { this.weatherUnit = 'imperial'; }
+    // subscribe to global weather unit changes
+    this._stateService.weatherUnitListener().pipe(takeUntil(this._unsubscribe)).subscribe((u) => {
+      if (u && this.weatherUnit !== u) {
+        this.weatherUnit = u;
+        // refresh weather automatically when unit changes
+        if (this.position) {
+          const lat = Number(this.position.coords.latitude);
+          const lon = Number(this.position.coords.longitude);
+          this._weatherService.getByCoords(lat, lon, this.weatherUnit, true).subscribe((wd: any) => {
+            this.weatherData = wd;
+            this.weatherCached = false;
+            this._cdr.markForCheck();
+          }, (err) => { console.warn('Weather refresh failed on unit change', err); });
+        }
+      }
+    });
+
+    // subscribe to global latest weather so the card updates when toolbar triggers unit change
+    this._stateService.weatherLatestListener().pipe(takeUntil(this._unsubscribe)).subscribe((w: any) => {
+      if (w && w.main && typeof w.main.temp === 'number') {
+        this.weatherData = w;
+        // presume this data is from cache/persisted unless a fresh fetch sets weatherCached=false
+        this.weatherCached = true;
+        this._cdr.markForCheck();
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -97,6 +132,37 @@ export class MapHomeComponent implements OnInit, OnDestroy {
     this.attractions = null;
     this.restaurants = null;
     this.module = 'attractions';
+  }
+
+  public toggleWeatherUnit(): void {
+    this.weatherUnit = this.weatherUnit === 'metric' ? 'imperial' : 'metric';
+    localStorage.setItem('weatherUnit', this.weatherUnit);
+    // refetch weather for current position
+    if (this.position) {
+      const lat = Number(this.position.coords.latitude);
+      const lon = Number(this.position.coords.longitude);
+      this._weatherService.getByCoords(lat, lon, this.weatherUnit, true).subscribe((wd: any) => {
+        this.weatherData = wd;
+        try { this._stateService.setWeatherLatest(wd); } catch (e) {}
+        this.weatherCached = false;
+        this._cdr.markForCheck();
+      }, (err) => { console.warn('Weather refresh failed', err); });
+    }
+  }
+
+  public refreshWeather(): void {
+    if (this.position) {
+      const lat = Number(this.position.coords.latitude);
+      const lon = Number(this.position.coords.longitude);
+      this._weatherService.getByCoords(lat, lon, this.weatherUnit, true).subscribe((wd: any) => {
+        this.weatherData = wd;
+        try { this._stateService.setWeatherLatest(wd); } catch (e) {}
+        this.weatherCached = false;
+        this._cdr.markForCheck();
+      }, (err) => {
+        console.warn('Weather refresh failed', err);
+      });
+    }
   }
 
   ngOnDestroy(): void {
@@ -399,6 +465,31 @@ export class MapHomeComponent implements OnInit, OnDestroy {
         if (this.position && this.leafletMap) {
           this._addUserLocation();
           this.setMapPosition();
+          // fetch weather for current user location (best-effort)
+          try {
+            const lat = Number(this.position.coords.latitude);
+            const lon = Number(this.position.coords.longitude);
+            this._weatherService.getByCoords(lat, lon, this.weatherUnit).subscribe((wd: any) => {
+              this.weatherData = wd;
+              // publish latest weather to global state
+              try { this._stateService.setWeatherLatest(wd); } catch (e) {}
+              this.weatherCached = false;
+              this._cdr.markForCheck();
+            }, (err) => {
+              console.warn('Weather fetch failed', err);
+              // try to get cached value
+              try {
+                this._weatherService.getByCoords(lat, lon, this.weatherUnit).subscribe((cached: any) => {
+                  this.weatherData = cached;
+                  try { this._stateService.setWeatherLatest(cached); } catch (e) {}
+                  this.weatherCached = true;
+                  this._cdr.markForCheck();
+                });
+              } catch (e) {}
+            });
+          } catch (e) {
+            console.warn('Could not fetch weather', e);
+          }
         }
       }
     } catch (error) {
@@ -429,5 +520,29 @@ export class MapHomeComponent implements OnInit, OnDestroy {
         }
       }
     );
+  }
+
+  /** Load a GeoJSON route file from assets and add it to the map */
+  public loadRoute(fileName: string): void {
+    if (!fileName) { return; }
+
+    this._transportService.loadRouteFile(fileName)
+      .subscribe((geojson: any) => {
+        try {
+          const layer = (L as any).geoJSON ? L.geoJSON(geojson) : (L as any).geoJson(geojson);
+          layer.addTo(this.leafletMap);
+          // fit map to route bounds if possible
+          if (layer.getBounds && typeof layer.getBounds === 'function') {
+            const bounds = layer.getBounds();
+            if (bounds.isValid && bounds.isValid()) {
+              this.leafletMap.fitBounds(bounds);
+            }
+          }
+        } catch (err) {
+          console.warn('Failed to add geojson to map', err);
+        }
+      }, (err) => {
+        console.warn('Failed loading route file', err);
+      });
   }
 }

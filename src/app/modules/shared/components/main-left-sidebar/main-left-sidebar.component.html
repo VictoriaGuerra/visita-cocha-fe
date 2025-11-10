@@ -1,13 +1,29 @@
-<ion-menu side="start" menuId="side-menu" contentId="main">
+<ion-menu side="start" menuId="side-menu" contentId="main" role="navigation" aria-label="Menú principal">
   <ion-content>
     <section class="h-full flex flex-column ion-justify-content-between">
       <section class="pt-4">
-        <section class="flex flex-column align-items-center cursor-pointer"
-                 routerLink="/"
-                 (click)="this.closeModal()">
-          <img class="max-w-13rem max-h-13rem my-3"
+        <!-- Sidebar header: logo (hidden on md+) and optional user profile -->
+  <section class="flex flex-column align-items-center cursor-pointer"
+     routerLink="/"
+     (click)="this.closeModal()"
+     role="link" aria-label="Ir a inicio">
+          <!-- hide logo on md+ because toolbar already shows it -->
+          <img class="max-w-13rem max-h-13rem my-3 md:hidden"
                src="assets/images/logo/logo.svg"
                alt="Logo"/>
+        </section>
+
+        <!-- User header (shows if user info exists in localStorage) -->
+        <section *ngIf="userName || userPhoto" class="w-full flex flex-column align-items-center mb-3">
+          <div class="left-sidebar__user-icon mb-2">
+            <img *ngIf="userPhoto" [src]="userPhoto" alt="Usuario" class="left-sidebar__user-photo rounded-circle"/>
+            <ion-icon *ngIf="!userPhoto" name="person-circle-outline" class="text-6xl"></ion-icon>
+          </div>
+
+          <div class="text-center">
+            <div class="uch-txt-subhead font-medium">{{ userName || 'Invitado' }}</div>
+            <div class="uch-txt-small text-600 cursor-pointer" (click)="goToProfile()">Ver perfil</div>
+          </div>
         </section>
 
         <section class="w-10 mx-auto my-4 md:my-5">

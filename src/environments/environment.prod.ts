@@ -9,4 +9,9 @@ export const environment = {
     appId: '1:814334659870:web:8a8f2c7a4cb40598af8d0f',
     measurementId: 'G-X052853P53'
   }
+  ,
+  weatherApiKey: '',
+  gamcPushUrl: '',
+  apiBaseUrl: '',
+  weatherCacheTtl: 600000
 };

@@ -14,6 +14,23 @@ export class MainLeftSidebarComponent {
 
   public ref: DynamicDialogRef;
 
+  // User info getters (read-only) — safe access to localStorage if present
+  get userName(): string | null {
+    try { return localStorage.getItem('userName'); } catch { return null; }
+  }
+
+  get userPhoto(): string | null {
+    try { return localStorage.getItem('userPhoto'); } catch { return null; }
+  }
+
+  // Improve keyboard accessibility: focus the menu when opened
+  async ionViewDidEnter() {
+    try {
+      const menuEl: any = document.querySelector('ion-menu');
+      if (menuEl) { menuEl.setAttribute('tabindex', '0'); }
+    } catch (e) { }
+  }
+
   constructor(private _dialogService: DialogService,
               private menu: MenuController,
               private modal: ModalController,
@@ -23,6 +40,12 @@ export class MainLeftSidebarComponent {
 
   closeModal() {
     this.menu.close();
+  }
+
+  public goToProfile() {
+    // Close menu and navigate to profile page (safe attempt)
+    try { this.menu.close(); } catch {}
+    this.router.navigate(['/profile']);
   }
 
   async openTermsModal() {

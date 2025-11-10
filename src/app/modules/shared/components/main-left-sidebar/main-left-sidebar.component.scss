@@ -7,4 +7,10 @@
     width: 7rem;
     height: 7rem;
   }
+
+  /* small helpers for sidebar user header */
+  &__user-photo.rounded-circle {
+    border-radius: 9999px;
+    object-fit: cover;
+  }
 }

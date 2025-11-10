@@ -1,4 +1,4 @@
-<ion-toolbar class="main-padding shadow-3">
+<ion-toolbar class="main-padding shadow-3" role="navigation" aria-label="Barra principal de navegación">
   <!-- Left section -->
   <ion-buttons *ngIf="backState"
                slot="secondary"
@@ -11,7 +11,7 @@
   <ion-buttons *ngIf="!backState"
                slot="secondary"
                class="fadeinup -ml-3 flex align-items-center">
-    <div fill="clear" (click)="this.openSideBar('side-menu')" class="flex cursor-pointer">
+    <div fill="clear" (click)="this.openSideBar('side-menu')" class="flex cursor-pointer" role="button" aria-label="Abrir menú">
       <ion-icon slot="start" name="menu-outline" class="text-4xl ml-1" color="primary"></ion-icon>
     </div>
 
@@ -19,7 +19,7 @@
       <img src="assets/images/logo/logo.svg"
           alt="Logo"
           class="h-full cursor-pointer"
-          routerLink='/'>
+          routerLink='/' role="img" aria-label="Logo Visita Cochabamba">
     </div>
   </ion-buttons>
 
@@ -80,5 +80,20 @@
         </ion-label>
       </section>
     </section>
+    <!-- Notification toggle -->
+    <ion-button fill="clear" (click)="toggleNotifications()" aria-label="Notificaciones" class="ml-2">
+      <ion-icon name="notifications-outline"></ion-icon>
+      <ion-badge *ngIf="notifStatus === 'granted'" color="success" class="ml-1">On</ion-badge>
+      <ion-badge *ngIf="notifStatus === 'denied'" color="danger" class="ml-1">Off</ion-badge>
+    </ion-button>
+    <!-- Weather unit global toggle -->
+    <ion-button fill="clear" (click)="toggleWeatherUnitGlobal()" aria-label="Unidad clima" class="ml-2">
+      <ion-icon name="thermometer-outline"></ion-icon>
+      <ion-label class="ml-1">
+        <span *ngIf="toolbarWeatherTemp !== null">{{ toolbarWeatherTemp }}°{{ weatherUnit === 'metric' ? 'C' : 'F' }}</span>
+        <span *ngIf="toolbarWeatherTemp === null">{{ weatherUnit === 'metric' ? '°C' : '°F' }}</span>
+        <small *ngIf="toolbarWeatherIsMock" class="ml-1">(mock)</small>
+      </ion-label>
+    </ion-button>
   </ion-buttons>
 </ion-toolbar>
