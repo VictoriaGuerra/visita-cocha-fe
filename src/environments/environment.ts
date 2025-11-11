@@ -14,8 +14,9 @@ export const environment = {
     measurementId: 'G-X052853P53'
   }
   ,
-  weatherApiKey: '',
+  weatherApiKey: 'https://api.open-meteo.com/v1/forecast',
   gamcPushUrl: '',
+  apiBaseUrl: 'mongodb+srv://visitaCocha:aLnJIKZct4gHc28L@visita-cocha.rd6cvks.mongodb.net/visita_cocha?appName=Visita-Cocha',
   weatherCacheTtl: 600000
 };
 

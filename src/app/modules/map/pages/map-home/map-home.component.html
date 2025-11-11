@@ -37,7 +37,10 @@
                 </div>
                 <div class="text-sm text-600">{{ weatherData?.weather?.[0]?.description }}</div>
                 <div class="text-xs text-500 mt-1">
-                  Humedad: {{ weatherData?.main?.humidity }}% • Viento: {{ weatherData?.wind?.speed }} m/s
+                  <ng-container *ngIf="weatherData?.main?.humidity !== null && weatherData?.main?.humidity !== undefined">
+                    Humedad: {{ weatherData?.main?.humidity }}% • 
+                  </ng-container>
+                  Viento: {{ weatherData?.wind?.speed | number:'1.0-2' }} {{ weatherData?.wind?.unit || (weatherUnit === 'metric' ? 'm/s' : 'mph') }}
                 </div>
                 <div class="text-xs text-500 mt-1">
                   <span *ngIf="weatherCached">Datos en caché</span>
