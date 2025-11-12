@@ -54,6 +54,7 @@ import { SafeUrlPipe } from './pipes/url-sanitizer.pipe';
 import { EventListComponent } from './components/event-list/event-list.component';
 import { MainItineraryComponent } from './components/main-itinerary/main-itinerary.component';
 import { RegisterFormComponent } from './components/register-form/register-form.component';
+import { GoogleTranslateComponent } from './components/google-translate/google-translate.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,8 @@ import { RegisterFormComponent } from './components/register-form/register-form.
     SafeUrlPipe,
     EventListComponent,
     MainItineraryComponent,
-    RegisterFormComponent
+    RegisterFormComponent,
+    GoogleTranslateComponent
   ],
   imports: [
     CommonModule,
@@ -160,7 +162,8 @@ import { RegisterFormComponent } from './components/register-form/register-form.
     SafeUrlPipe,
     EventListComponent,
     MainItineraryComponent,
-    RegisterFormComponent
+    RegisterFormComponent,
+    GoogleTranslateComponent
   ],
   providers: [
     CategoryRepositoryService,
