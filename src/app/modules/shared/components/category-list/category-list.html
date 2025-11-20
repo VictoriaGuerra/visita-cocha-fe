@@ -1,22 +1,26 @@
-<article (panleft)="scrollLeft($event)"
+<article class="category-explore-wrapper"
+         (panleft)="scrollLeft($event)"
          (panright)="scrollRight($event)">
   <section #categoriesContainer
-           class="uch-scroll fadein animation-duration-300">
+           class="category-scroll fadein animation-duration-300">
     <section *ngFor="let category of categoryList"
-             class="p-2 w-9rem h-5rem mr-3 md:mr-4 mb-4 cursor-pointer border-round-xl flex flex-column justify-content-center relative overflow-hidden z-0 bg-center bg-cover shadow-3"
-             style="background-image: url({{category.photoUrl}});"
+             class="category-card"
              routerLink="/search/category/{{category.id}}">
-      <ion-icon name="{{ category?.icon }}"
-                color="warning"
-                class="text-xl md:text-2xl z-2 opacity-70">
-      </ion-icon>
-
-      <p class="mt-1 text-sm md:text-base z-2 uch-txt--white font-light">
-        {{ category.name }}
-      </p>
-
-      <section class="w-full h-full uch-background-gradient-1 absolute top-0 right-0 left-0 bottom-0 z-1">
-      </section>
+      <div class="category-image"
+           [style.background-image]="'url(' + category.photoUrl + ')'">
+      </div>
+      
+      <div class="category-overlay"></div>
+      
+      <div class="category-content">
+        <ion-icon name="{{ category?.icon }}"
+                  class="category-icon">
+        </ion-icon>
+        
+        <p class="category-name">
+          {{ category.name }}
+        </p>
+      </div>
     </section>
   </section>
 </article>

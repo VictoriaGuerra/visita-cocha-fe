@@ -1,0 +1,138 @@
+.category-explore-wrapper {
+  width: 100%;
+  position: relative;
+}
+
+.category-scroll {
+  display: flex;
+  gap: 1.25rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  padding: 0.5rem 0;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.category-card {
+  position: relative;
+  min-width: 180px;
+  width: 180px;
+  height: 120px;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+    
+    .category-overlay {
+      background: rgba(72, 39, 120, 0.5);
+    }
+  }
+  
+  &:active {
+    transform: translateY(-4px);
+  }
+}
+
+.category-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.category-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+
+.category-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 1.25rem;
+  color: white;
+}
+
+.category-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: white;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.category-name {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  line-height: 1.3;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  margin: 0;
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .category-scroll {
+    gap: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .category-card {
+    min-width: 160px;
+    width: 160px;
+    height: 110px;
+  }
+  
+  .category-content {
+    padding: 1rem;
+  }
+  
+  .category-icon {
+    font-size: 1.75rem;
+  }
+  
+  .category-name {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .category-card {
+    min-width: 140px;
+    width: 140px;
+    height: 100px;
+  }
+  
+  .category-icon {
+    font-size: 1.5rem;
+  }
+  
+  .category-name {
+    font-size: 0.85rem;
+  }
+}

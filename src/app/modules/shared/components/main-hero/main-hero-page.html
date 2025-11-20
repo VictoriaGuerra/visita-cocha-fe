@@ -1,12 +1,81 @@
-<article class="uch-results-container w-full h-8rem md:h-10rem relative fadein animation-duration-500 bg-no-repeat bg-cover md:bg-cover bg-center border-round-bottom-xl shadow-3"
-         [style.background]="getBackgroundString(background)">
-  <section class="absolute top-0 bottom-0 right-0 left-0 h-full uch-background-gradient-1 border-round-bottom-xl">
-  </section>
+<article class="hero-container">
+  <!-- Video de fondo -->
+  <div class="hero-video-wrapper" *ngIf="showVideo && isVideoLoaded">
+    <iframe #heroVideo
+            class="hero-video"
+            [src]="videoUrl"
+            frameborder="0"
+            allow="autoplay; encrypted-media"
+            allowfullscreen>
+    </iframe>
+  </div>
 
-  <section class="absolute top-0 right-0 left-0 px-3 md:px-5 mt-6 md:mt-7">
-    <h3 class="uch-txt-title title uch-txt--white font-normal text-3xl md:text-4xl flex align-items-center gap-1"
-        style="letter-spacing: 7px;">
-      Cochabamba
-    </h3>
-  </section>
+  <!-- Imagen de fallback para móviles o mientras carga -->
+  <div class="hero-image-fallback" 
+       *ngIf="!showVideo || !isVideoLoaded"
+       [style.background-image]="getBackgroundString(background)">
+  </div>
+
+  <!-- Overlay gradient -->
+  <div class="hero-overlay"></div>
+
+  <!-- Contenido principal -->
+  <div class="hero-content">
+    <div class="hero-content-inner">
+      <!-- Badge -->
+      <div class="hero-badge">
+        <ion-icon name="location-outline" class="badge-icon"></ion-icon>
+        <span>Descubre Bolivia</span>
+      </div>
+
+      <!-- Título principal -->
+      <h1 class="hero-title">
+        <span class="title-line title-line-1">Bienvenido a</span>
+        <span class="title-line title-line-2">Cochabamba</span>
+        <span class="title-subtitle">La Ciudad del Eterno Clima Primaveral</span>
+      </h1>
+
+      <!-- Descripción -->
+      <p class="hero-description">
+        Explora montañas majestuosas, cultura vibrante y gastronomía excepcional
+        en el corazón de Bolivia.
+      </p>
+
+      <!-- Call to Actions -->
+      <div class="hero-actions">
+        <button class="hero-btn hero-btn-primary" (click)="exploreAttractions()">
+          <span>Explorar Atractivos</span>
+          <ion-icon name="arrow-forward-outline" class="btn-icon"></ion-icon>
+        </button>
+        
+        <button class="hero-btn hero-btn-secondary" (click)="exploreGastronomy()">
+          <span>Gastronomía</span>
+          <ion-icon name="restaurant-outline" class="btn-icon"></ion-icon>
+        </button>
+      </div>
+
+      <!-- Stats -->
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-number">2,600m</div>
+          <div class="stat-label">Altitud</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <div class="stat-number">20°C</div>
+          <div class="stat-label">Todo el año</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <div class="stat-number">+50</div>
+          <div class="stat-label">Atractivos</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <button class="scroll-indicator" (click)="scrollToContent()" aria-label="Scroll down">
+      <ion-icon name="chevron-down-outline"></ion-icon>
+    </button>
+  </div>
 </article>

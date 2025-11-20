@@ -7,7 +7,8 @@ import { updateScrollRightContainer, updateScrollLeftContainer } from '../../uti
 
 @Component({
   selector: 'category-list',
-  templateUrl: './category-list.html'
+  templateUrl: './category-list.html',
+  styleUrls: ['./category-list.scss']
 })
 export class CategoryListComponent implements OnInit, OnDestroy {
 

@@ -8,7 +8,8 @@ import { QrViewerComponent } from '../qr-viewer/qr-viewer.component';
 
 @Component({
   selector: 'event-list',
-  templateUrl: './event-list.html'
+  templateUrl: './event-list.html',
+  styleUrls: ['./event-list.scss']
 })
 export class EventListComponent implements OnInit {
 

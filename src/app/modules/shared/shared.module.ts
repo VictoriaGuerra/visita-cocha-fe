@@ -55,6 +55,7 @@ import { EventListComponent } from './components/event-list/event-list.component
 import { MainItineraryComponent } from './components/main-itinerary/main-itinerary.component';
 import { RegisterFormComponent } from './components/register-form/register-form.component';
 import { GoogleTranslateComponent } from './components/google-translate/google-translate.component';
+import { ShareExperienceComponent } from './components/share-experience/share-experience.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { GoogleTranslateComponent } from './components/google-translate/google-t
     EventListComponent,
     MainItineraryComponent,
     RegisterFormComponent,
-    GoogleTranslateComponent
+    GoogleTranslateComponent,
+    ShareExperienceComponent
   ],
   imports: [
     CommonModule,
@@ -163,7 +165,8 @@ import { GoogleTranslateComponent } from './components/google-translate/google-t
     EventListComponent,
     MainItineraryComponent,
     RegisterFormComponent,
-    GoogleTranslateComponent
+    GoogleTranslateComponent,
+    ShareExperienceComponent
   ],
   providers: [
     CategoryRepositoryService,

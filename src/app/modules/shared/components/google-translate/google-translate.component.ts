@@ -21,25 +21,23 @@ export class GoogleTranslateComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
-    // Inicializar la función global antes de cargar el script
+   
     this.initializeGoogleTranslate();
   }
 
   ngAfterViewInit(): void {
-    // Cargar el script de Google Translate después de que la vista esté lista
+ 
     this.loadGoogleTranslateScript();
+    
+    this.hideBannerFrame();
   }
 
-  /**
-   * Inicializa la función global googleTranslateElementInit
-   * que será llamada por el script de Google Translate
-   */
   private initializeGoogleTranslate(): void {
     window.googleTranslateElementInit = () => {
       new window.google.translate.TranslateElement(
         {
-          pageLanguage: 'es', // Idioma por defecto: español
-          includedLanguages: 'es,en,it,qu,fr,pt', // Idiomas disponibles
+          pageLanguage: 'es', 
+          includedLanguages: 'es,en,it,qu,fr,pt', 
           layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
           autoDisplay: false
         },
@@ -48,22 +46,19 @@ export class GoogleTranslateComponent implements OnInit, AfterViewInit {
     };
   }
 
-  /**
-   * Carga dinámicamente el script de Google Translate
-   */
+
   private loadGoogleTranslateScript(): void {
-    // Verificar si el script ya está cargado
+    
     const existingScript = this.document.getElementById('google-translate-script');
     
     if (existingScript) {
-      // Si ya existe, solo inicializar
       if (window.google && window.google.translate) {
         window.googleTranslateElementInit();
       }
       return;
     }
 
-    // Crear el elemento script
+ 
     const script = this.renderer2.createElement('script');
     script.id = 'google-translate-script';
     script.type = 'text/javascript';
@@ -71,7 +66,30 @@ export class GoogleTranslateComponent implements OnInit, AfterViewInit {
     script.async = true;
     script.defer = true;
 
-    // Agregar el script al documento
     this.renderer2.appendChild(this.document.body, script);
+  }
+
+ 
+  private hideBannerFrame(): void {
+    const observer = setInterval(() => {
+      const banner = this.document.querySelector('.goog-te-banner-frame') as HTMLElement;
+      if (banner) {
+        banner.style.display = 'none';
+      }
+      
+    
+      if (this.document.body) {
+        this.document.body.style.top = '0';
+        this.document.body.style.position = 'static';
+      }
+      
+      
+      const widget = this.document.querySelector('#google_translate_element .goog-te-combo');
+      if (widget) {
+        clearInterval(observer);
+      }
+    }, 100);
+   
+    setTimeout(() => clearInterval(observer), 5000);
   }
 }

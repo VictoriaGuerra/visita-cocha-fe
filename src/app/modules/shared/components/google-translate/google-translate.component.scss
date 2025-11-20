@@ -1,2 +1,203 @@
-// Sin estilos adicionales por ahora
-// El widget de Google Translate usará sus estilos por defecto
+:host {
+  display: inline-block;
+}
+
+.translate-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 0.5rem;
+  background: transparent;
+  border-radius: 0;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+
+  &:hover {
+    .translate-icon {
+      color: var(--ion-color-primary-shade);
+    }
+  }
+}
+
+.translate-icon {
+  font-size: 1.5rem;
+  color: var(--ion-color-medium);
+  flex-shrink: 0;
+  transition: color 0.2s ease;
+}
+
+:host ::ng-deep {
+  #google_translate_element {
+    .goog-te-gadget-simple {
+      background-color: transparent !important;
+      border: none !important;
+      padding: 0 !important;
+      font-size: 13px !important;
+      line-height: 1.4 !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      cursor: pointer !important;
+      transition: all 0.2s ease !important;
+      
+      .goog-te-menu-value {
+        color: var(--ion-color-medium) !important;
+        font-weight: 400 !important;
+        font-family: inherit !important;
+        font-size: 0 !important;
+        
+        span {
+          color: var(--ion-color-medium) !important;
+          font-size: 13px !important;
+          
+          // Ocultar "Select Language" inicial
+          &:first-child {
+            display: none !important;
+          }
+        }
+      }
+      
+     
+      span[style*="border-left"] {
+        border-left: 3px solid transparent !important;
+        border-right: 3px solid transparent !important;
+        border-top: 3px solid var(--ion-color-medium) !important;
+        margin-left: 6px !important;
+        transition: border-color 0.2s ease !important;
+      }
+      
+      &:hover span[style*="border-left"] {
+        border-top-color: var(--ion-color-primary) !important;
+      }
+    }
+    
+    .goog-te-gadget-icon {
+      display: none !important;
+    }
+    
+
+    .goog-logo-link {
+      display: none !important;
+    }
+    
+    .goog-te-gadget {
+      font-family: inherit !important;
+      font-size: 0 !important;
+    }
+  }
+}
+
+
+::ng-deep {
+  // OCULTAR LA BARRA BLANCA DE GOOGLE TRANSLATE
+  .goog-te-banner-frame.skiptranslate {
+    display: none !important;
+  }
+  
+  body {
+    top: 0 !important;
+    position: static !important;
+  }
+  
+ 
+  .skiptranslate iframe {
+    visibility: hidden !important;
+    display: none !important;
+  }
+  
+
+  .goog-te-menu-frame {
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1) !important;
+    border-radius: 8px !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    margin-top: 6px !important;
+    overflow: hidden !important;
+  }
+  
+  .goog-te-menu2 {
+    border: none !important;
+    background: white !important;
+    border-radius: 8px !important;
+    max-height: 320px !important;
+    overflow-y: auto !important;
+    padding: 6px !important;
+  }
+  
+  // Items del menú
+  .goog-te-menu2-item {
+    transition: all 0.15s ease !important;
+    
+    div,
+    &:link div,
+    &:visited div,
+    &:active div {
+      color: var(--ion-color-dark) !important;
+      padding: 9px 14px !important;
+      transition: all 0.15s ease !important;
+      font-family: inherit !important;
+      font-size: 13px !important;
+      border-radius: 4px !important;
+      margin: 1px 2px !important;
+    }
+  }
+  
+  // Hover en items
+  .goog-te-menu2-item:hover {
+    div {
+      background: rgba(0, 0, 0, 0.04) !important;
+      color: var(--ion-color-primary) !important;
+    }
+  }
+  
+  // Item seleccionado
+  .goog-te-menu2-item-selected {
+    div {
+      background: var(--ion-color-primary) !important;
+      color: white !important;
+      font-weight: 500 !important;
+    }
+  }
+  
+  
+  .goog-te-menu2::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  .goog-te-menu2::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .goog-te-menu2::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+  }
+  
+  .goog-te-menu2::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
+  }
+}
+
+
+@media (max-width: 768px) {
+  .translate-container {
+    padding: 0 0.4rem;
+  }
+  
+  .translate-icon {
+    font-size: 1.4rem;
+  }
+  
+  ::ng-deep {
+    #google_translate_element .goog-te-gadget-simple {
+      font-size: 0 !important;
+      
+      span {
+        font-size: 12px !important;
+      }
+    }
+    
+    .goog-te-menu-frame {
+      max-width: 90vw !important;
+    }
+  }
+}
