@@ -12,6 +12,6 @@ export const environment = {
   ,
   weatherApiKey: '',
   gamcPushUrl: '',
-  apiBaseUrl: '',
+  apiBaseUrl: 'https://api.visitacocha.gob.bo',
   weatherCacheTtl: 600000
 };

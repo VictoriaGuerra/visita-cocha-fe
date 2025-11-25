@@ -16,7 +16,7 @@ export const environment = {
   ,
   weatherApiKey: 'https://api.open-meteo.com/v1/forecast',
   gamcPushUrl: '',
-  apiBaseUrl: 'mongodb+srv://visitaCocha:aLnJIKZct4gHc28L@visita-cocha.rd6cvks.mongodb.net/visita_cocha?appName=Visita-Cocha',
+  apiBaseUrl: 'http://localhost:3000',
   weatherCacheTtl: 600000
 };
 
