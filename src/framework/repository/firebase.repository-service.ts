@@ -75,7 +75,16 @@ export abstract class FirebaseRepositoryService<ENTITY> implements Repository<EN
         return;
       } catch (e) {
         // fallback to individual creates
-        await Promise.all(entityList.map((ent) => lastValueFrom(this._http!.post(`${this._apiBaseUrl}/${this.getCollectionName()}`, ent))));
+        if (this._http && this._apiBaseUrl) {
+          const http = this._http;
+          const collectionName = this.getCollectionName();
+          const baseUrl = this._apiBaseUrl;
+          await Promise.all(
+            entityList.map((ent) =>
+              lastValueFrom(http.post(`${baseUrl}/${collectionName}`, ent))
+            )
+          );
+        }
         return;
       }
     }
@@ -208,7 +217,7 @@ export abstract class FirebaseRepositoryService<ENTITY> implements Repository<EN
         {
           field: attribute,
           operation: '==',
-          value: value
+          value
         }
       ]
     };
