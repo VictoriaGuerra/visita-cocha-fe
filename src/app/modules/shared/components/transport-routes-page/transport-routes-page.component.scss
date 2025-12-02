@@ -1,0 +1,23 @@
+.transport-routes-page {
+  display: flex;
+  gap: 1rem;
+
+  .left {
+    flex: 1 1 320px;
+  }
+
+  .right {
+    flex: 2 1 640px;
+    position: relative;
+  }
+
+  .loading {
+    margin-top: 8px;
+    color: #333;
+  }
+
+  .error {
+    margin-top: 8px;
+    color: #b00020;
+  }
+}

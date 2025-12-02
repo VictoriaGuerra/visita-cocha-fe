@@ -1,0 +1,8 @@
+<div class="route-map-wrapper">
+  <div *ngIf="loading" class="status">
+    <div class="spinner small"></div>
+    <span class="spinner-text">Cargando ruta...</span>
+  </div>
+  <div class="status error" *ngIf="error">{{ error }}</div>
+  <div #mapContainer class="map-container"></div>
+</div>

@@ -54,7 +54,8 @@
             "allowedCommonJsDependencies": [
               "angularx-qrcode",
               "leaflet",
-              "@cordobo/qrcode"
+              "@cordobo/qrcode",
+              "togeojson"
             ]
           },
           "configurations": {

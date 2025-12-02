@@ -5,6 +5,9 @@ import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
 import 'img-comparison-slider';
+import * as toGeoJSON from 'togeojson';
+
+(window as any).toGeoJSON = toGeoJSON;
 
 if (environment.production) {
   enableProdMode();

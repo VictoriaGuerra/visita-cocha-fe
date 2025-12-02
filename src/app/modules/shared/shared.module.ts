@@ -56,6 +56,10 @@ import { MainItineraryComponent } from './components/main-itinerary/main-itinera
 import { RegisterFormComponent } from './components/register-form/register-form.component';
 import { GoogleTranslateComponent } from './components/google-translate/google-translate.component';
 import { ShareExperienceComponent } from './components/share-experience/share-experience.component';
+import { TransportRoutesListComponent } from './components/transport-routes-list/transport-routes-list.component';
+import { TransportRoutesService } from './services/transport-routes.service';
+import { TransportRouteMapComponent } from './components/transport-route-map/transport-route-map.component';
+import { TransportRoutesPageComponent } from './components/transport-routes-page/transport-routes-page.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +87,12 @@ import { ShareExperienceComponent } from './components/share-experience/share-ex
     RegisterFormComponent,
     GoogleTranslateComponent,
     ShareExperienceComponent
+    ,
+    TransportRoutesListComponent
+    ,
+    TransportRouteMapComponent
+    ,
+    TransportRoutesPageComponent
   ],
   imports: [
     CommonModule,
@@ -167,11 +177,19 @@ import { ShareExperienceComponent } from './components/share-experience/share-ex
     RegisterFormComponent,
     GoogleTranslateComponent,
     ShareExperienceComponent
+    ,
+    TransportRoutesListComponent
+    ,
+    TransportRouteMapComponent
+    ,
+    TransportRoutesPageComponent
   ],
   providers: [
     CategoryRepositoryService,
     ConfirmationService,
     DialogService
+    ,
+    TransportRoutesService
   ]
 })
 export class SharedModule {

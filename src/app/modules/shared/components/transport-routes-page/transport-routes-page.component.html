@@ -1,0 +1,17 @@
+<div class="transport-routes-page">
+  <div class="left">
+    <app-transport-routes-list
+      (routeSelected)="onRouteSelected($event)"
+      [mode]="'dropdown'">
+    </app-transport-routes-list>
+  </div>
+
+  <div class="right">
+    <app-transport-route-map [route]="selectedRoute"></app-transport-route-map>
+    <div *ngIf="loadingRouteDetails" class="loading">
+      <div class="spinner small"></div>
+      <span>Cargando detalles...</span>
+    </div>
+    <div *ngIf="error" class="error">{{ error }}</div>
+  </div>
+</div>

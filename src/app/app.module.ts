@@ -4,6 +4,8 @@ import {AngularFireAnalyticsModule} from "@angular/fire/compat/analytics";
 import {ScreenTrackingService, UserTrackingService} from '@angular/fire/analytics';
 import {IonicModule, IonicRouteStrategy} from '@ionic/angular';
 import {SidebarModule} from 'primeng/sidebar';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import {NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -23,6 +25,9 @@ import {environment} from '../environments/environment';
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireMessagingModule,
     AngularFireAnalyticsModule,
