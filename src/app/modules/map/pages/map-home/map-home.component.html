@@ -56,12 +56,152 @@
           </section>
       </section>
 
-      <!-- Route test button (top-right) -->
+      <!-- Routes panel button (top-right) -->
       <section class="absolute top-0 right-0 mt-7 mr-4" style="z-index:999;">
-        <ion-button color="tertiary" size="small" (click)="loadRoute('sample-route.json')">
-          Cargar ruta de prueba
+        <ion-button color="tertiary" size="small" (click)="toggleRoutesPanel()">
+          <ion-icon slot="start" name="map-outline"></ion-icon>
+          Rutas
         </ion-button>
       </section>
+
+      <!-- Routes Panel - Compacto con buscador -->
+      <section *ngIf="showRoutesPanel" 
+               class="absolute top-0 right-0 mt-20 mr-2 md:mr-4 bg-white border-round-lg shadow-4 routes-panel"
+               [ngClass]="{'panel-expanded': routeSearchTerm || searchBarFocused || filteredRoutes.length > 0}">
+        
+        <!-- Header compacto con botón cerrar -->
+        <div class="flex justify-content-between align-items-center p-2 panel-header">
+          <h5 class="text-sm m-0 font-semibold" style="flex: 1;">Buscar Ruta</h5>
+          <ion-button fill="clear" size="small" (click)="toggleRoutesPanel()" class="close-btn">
+            <ion-icon name="close-outline"></ion-icon>
+          </ion-button>
+        </div>
+
+        <!-- Contenido del panel -->
+        <div class="p-2">
+          <!-- Loading spinner -->
+          <div *ngIf="!routesLoaded && routesList.length === 0" class="text-center p-3">
+            <i class="pi pi-spin pi-spinner text-xl"></i>
+            <p class="text-xs mt-2 mb-0">Cargando rutas...</p>
+          </div>
+
+          <!-- Buscador siempre visible -->
+          <div *ngIf="routesLoaded || routesList.length > 0">
+            <ion-searchbar 
+              placeholder="Buscar ruta..."
+              [(ngModel)]="routeSearchTerm"
+              (ionInput)="onSearchChange()"
+              (ionFocus)="searchBarFocused = true"
+              (ionBlur)="onSearchBlur()"
+              debounce="300"
+              show-clear-button="focus"
+              class="route-searchbar">
+            </ion-searchbar>
+          </div>
+          
+          <!-- Lista de rutas - Solo visible cuando hay búsqueda o resultados -->
+          <div *ngIf="(routeSearchTerm || searchBarFocused || filteredRoutes.length > 0) && (routesLoaded || routesList.length > 0)" 
+               class="routes-list">
+            <ng-container *ngIf="filteredRoutes.length > 0">
+              <ion-item 
+                *ngFor="let route of filteredRoutes; trackBy: trackByRouteId"
+                button
+                [class.selected]="selectedRoute?.id === route.id"
+                (click)="selectRoute(route)"
+                lines="full"
+                class="route-item">
+                <ion-label>
+                  <p class="text-xs font-medium">{{ route.name }}</p>
+                </ion-label>
+                <ion-icon *ngIf="selectedRoute?.id === route.id" name="checkmark-circle" color="primary" slot="end"></ion-icon>
+              </ion-item>
+            </ng-container>
+            
+            <div *ngIf="filteredRoutes.length === 0 && routesList.length > 0 && routeSearchTerm && !searchBarFocused" class="text-center p-3 text-xs text-600">
+              No se encontraron rutas con "{{ routeSearchTerm }}"
+            </div>
+          </div>
+
+          <!-- Botón para ocultar ruta seleccionada -->
+          <div *ngIf="selectedRoute && (routeSearchTerm || filteredRoutes.length > 0)" class="mt-2 pt-2 selected-route-actions">
+            <ion-button expand="block" fill="outline" size="small" (click)="deselectRoute()">
+              <ion-icon slot="start" name="close-circle-outline"></ion-icon>
+              Ocultar ruta
+            </ion-button>
+          </div>
+        </div>
+      </section>
+
+      <style>
+        .routes-panel {
+          width: 280px;
+          max-width: 280px;
+          max-height: auto;
+          z-index: 999;
+          overflow: hidden;
+          transition: all 0.3s ease;
+          pointer-events: auto;
+        }
+        
+        .routes-panel.panel-expanded {
+          width: 350px;
+          max-width: 350px;
+          max-height: calc(100vh - 120px);
+        }
+        
+        .panel-header {
+          border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .close-btn {
+          --padding: 4px;
+        }
+        
+        .close-btn ion-icon {
+          font-size: 20px;
+        }
+        
+        .route-searchbar {
+          --background: #f5f5f5; 
+          --border-radius: 8px; 
+          --box-shadow: none; 
+          --placeholder-color: #999; 
+          --padding-start: 12px;
+          --padding-end: 12px;
+          --padding-top: 8px;
+          --padding-bottom: 8px;
+          --min-height: 40px;
+          width: 100%;
+          pointer-events: auto;
+        }
+        
+        .routes-list {
+          max-height: 60vh;
+          overflow-y: auto;
+          margin-top: 8px;
+        }
+        
+        .route-item {
+          --min-height: 40px;
+        }
+        
+        .route-item ion-icon {
+          font-size: 18px;
+        }
+        
+        .selected-route-actions {
+          border-top: 1px solid #e0e0e0;
+        }
+        
+        .selected-route-actions ion-button {
+          --height: 32px;
+          --font-size: 12px;
+        }
+        
+        .selected-route-actions ion-icon {
+          font-size: 16px;
+        }
+      </style>
 
       <section *ngIf="!position"
                class="fixed bottom-0 right-0 mb-3 mr-3"
@@ -115,3 +255,43 @@
     </section>
   </article>
 </ion-content>
+
+<style>
+  /* Estilos para asegurar que el campo de búsqueda sea completamente clickeable */
+  ion-searchbar {
+    pointer-events: auto !important;
+    position: relative !important;
+    z-index: 1001 !important;
+  }
+  
+  ion-searchbar .searchbar-input-container {
+    pointer-events: auto !important;
+    position: relative !important;
+  }
+  
+  ion-searchbar .searchbar-input {
+    pointer-events: auto !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 48px !important;
+    padding: 12px 16px !important;
+    cursor: text !important;
+    position: relative !important;
+  }
+  
+  ion-searchbar input {
+    pointer-events: auto !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 48px !important;
+    padding: 12px 16px !important;
+    cursor: text !important;
+    position: relative !important;
+    z-index: 1002 !important;
+  }
+  
+  /* Asegurar que no haya overlays bloqueando */
+  .routes-panel ion-searchbar {
+    pointer-events: auto !important;
+  }
+</style>

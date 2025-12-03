@@ -16,6 +16,7 @@ import {TrashContainers} from '../../constants/trash-containers';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { QrViewerComponent } from 'src/app/modules/shared/components/qr-viewer/qr-viewer.component';
 import { Pluviometers } from '../../constants/pluviometers';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'map-home-page',
@@ -84,6 +85,16 @@ export class MapHomeComponent implements OnInit, OnDestroy {
     iconSize: [30, 50]
   });
 
+  public routesLoaded: boolean = false;
+  public routesVisible: boolean = false;
+  public routeLayers: L.Layer[] = [];
+  public routesList: Array<{id: number, name: string, geoJson: any}> = [];
+  public filteredRoutes: Array<{id: number, name: string, geoJson: any}> = [];
+  public selectedRoute: {id: number, name: string, geoJson: any} | null = null;
+  public showRoutesPanel: boolean = false;
+  public currentRouteLayer: L.Layer | null = null;
+  public routeSearchTerm: string = '';
+  public searchBarFocused: boolean = false;
   private _unsubscribe: Subject<void>;
 
   constructor(private _attractionRepositoryService: AttractionRepositoryService,
@@ -94,7 +105,8 @@ export class MapHomeComponent implements OnInit, OnDestroy {
               private _cdr: ChangeDetectorRef,
               public router: Router,
               private _transportService: TransportService,
-              private _weatherService: WeatherService) {
+              private _weatherService: WeatherService,
+              private _http: HttpClient) {
     this._unsubscribe = new Subject<void>();
     const storedUnit = localStorage.getItem('weatherUnit');
     if (storedUnit === 'imperial') { this.weatherUnit = 'imperial'; }
@@ -132,6 +144,8 @@ export class MapHomeComponent implements OnInit, OnDestroy {
     this.attractions = null;
     this.restaurants = null;
     this.module = 'attractions';
+    // Inicializar filteredRoutes como array vacío
+    this.filteredRoutes = [];
   }
 
   public toggleWeatherUnit(): void {
@@ -544,5 +558,273 @@ export class MapHomeComponent implements OnInit, OnDestroy {
       }, (err) => {
         console.warn('Failed loading route file', err);
       });
+  }
+
+  /** 
+   * Cargar todas las rutas GeoJSON desde la carpeta individual-rutes
+   * Extrae los nombres de las rutas de cada archivo GeoJSON y las agrega a la lista
+   */
+  private _loadAllRoutes(): void {
+    if (this.routesLoaded || !this.leafletMap) {
+      return;
+    }
+
+    this.routesList = [];
+    this.routesLoaded = false;
+
+    const startRoute = 2;
+    const endRoute = 121;
+    const totalRoutes = endRoute - startRoute + 1;
+    let loadedCount = 0;
+    let errorCount = 0;
+
+    const checkCompletion = () => {
+      if (loadedCount + errorCount === totalRoutes) {
+        this.routesLoaded = true;
+        this.routesList.sort((a, b) => a.name.localeCompare(b.name));
+        
+        // Actualizar rutas filtradas inmediatamente
+        this._updateFilteredRoutes();
+        
+        // Forzar actualización de la vista después de un breve delay para asegurar que Angular detecte los cambios
+        setTimeout(() => {
+          this._updateFilteredRoutes();
+          this._cdr.markForCheck();
+          this._cdr.detectChanges();
+        }, 300);
+      }
+    };
+
+    for (let i = startRoute; i <= endRoute; i++) {
+      const filePath = `assets/GeoJSON/individual-rutes/ruta_${i}.geojson`;
+      
+      this._http.get(filePath).subscribe({
+        next: (geoJson: any) => {
+          try {
+            const routeNames = this._extractRouteNames(geoJson);
+            
+            if (routeNames.length > 0) {
+              // Crear una entrada para cada ruta con nombre
+              routeNames.forEach((name, index) => {
+                this.routesList.push({
+                  id: this.routesList.length + 1,
+                  name: name,
+                  geoJson: {
+                    type: 'FeatureCollection',
+                    name: geoJson.name || `ruta_${i}`,
+                    crs: geoJson.crs,
+                    features: [geoJson.features[index]]
+                  }
+                });
+              });
+            } else {
+              // Usar nombre genérico si no hay nombres específicos
+              this.routesList.push({
+                id: this.routesList.length + 1,
+                name: `Ruta ${i}`,
+                geoJson: geoJson
+              });
+            }
+            
+            loadedCount++;
+            checkCompletion();
+          } catch (err) {
+            console.error(`Error al procesar ruta ${i}:`, err);
+            errorCount++;
+            checkCompletion();
+          }
+        },
+        error: (err) => {
+          if (err.status !== 404) {
+            console.warn(`Error al cargar el archivo: ${filePath}`, err);
+          }
+          errorCount++;
+          checkCompletion();
+        }
+      });
+    }
+  }
+
+  /** 
+   * Extraer nombres de las rutas desde las propiedades de los features del GeoJSON
+   * @param geoJson - Objeto GeoJSON con features
+   * @returns Array de nombres de rutas encontrados
+   */
+  private _extractRouteNames(geoJson: any): string[] {
+    if (!geoJson?.features || !Array.isArray(geoJson.features)) {
+      return [];
+    }
+    
+    return geoJson.features
+      .map((feature: any) => feature?.properties?.Name)
+      .filter((name: string) => name && name.trim() !== '');
+  }
+
+  /** 
+   * Mostrar una ruta seleccionada en el mapa con su estilo y popup
+   * @param route - Objeto de ruta con id, name y geoJson
+   */
+  private _showRouteOnMap(route: {id: number, name: string, geoJson: any}): void {
+    if (!this.leafletMap || !route?.geoJson) {
+      return;
+    }
+
+    this._clearCurrentRoute();
+
+    try {
+      const layer = L.geoJSON(route.geoJson, {
+        style: (feature: any) => ({
+          color: feature?.properties?.color || '#3388ff',
+          weight: 4,
+          opacity: 0.8
+        }),
+        onEachFeature: (feature: any, layer: L.Layer) => {
+          if (feature?.properties?.Name) {
+            layer.bindPopup(`<strong>${feature.properties.Name}</strong>`);
+          }
+        }
+      });
+
+      layer.addTo(this.leafletMap);
+      this.currentRouteLayer = layer;
+      
+      // Ajustar el zoom para mostrar toda la ruta con padding
+      const bounds = layer.getBounds?.();
+      if (bounds?.isValid?.()) {
+        this.leafletMap.fitBounds(bounds, { padding: [50, 50] });
+      }
+      
+      this._cdr.markForCheck();
+    } catch (err) {
+      console.error('Error al mostrar ruta en el mapa:', err);
+    }
+  }
+
+  /** 
+   * Limpiar la ruta actual del mapa
+   */
+  private _clearCurrentRoute(): void {
+    if (this.currentRouteLayer && this.leafletMap) {
+      this.leafletMap.removeLayer(this.currentRouteLayer);
+      this.currentRouteLayer = null;
+    }
+  }
+
+  /** Abrir/cerrar panel de rutas */
+  public toggleRoutesPanel(): void {
+    if (this.showRoutesPanel) {
+      // Al cerrar, limpiar búsqueda y estado
+      this.routeSearchTerm = '';
+      this.searchBarFocused = false;
+      this._updateFilteredRoutes();
+    }
+    
+    this.showRoutesPanel = !this.showRoutesPanel;
+    
+    // Si se abre el panel y no hay rutas cargadas, cargarlas
+    if (this.showRoutesPanel && !this.routesLoaded && this.routesList.length === 0) {
+      this._loadAllRoutes();
+    }
+    
+    // Si se abre el panel y ya hay rutas cargadas, actualizar las rutas filtradas
+    if (this.showRoutesPanel && this.routesList.length > 0) {
+      this._updateFilteredRoutes();
+      setTimeout(() => {
+        this._updateFilteredRoutes();
+        this._cdr.detectChanges();
+      }, 50);
+    }
+    
+    // Forzar detección de cambios
+    this._cdr.markForCheck();
+  }
+
+  /** 
+   * Seleccionar una ruta y mostrarla en el mapa
+   * @param route - Ruta a seleccionar
+   */
+  public selectRoute(route: {id: number, name: string, geoJson: any}): void {
+    this.selectedRoute = route;
+    this.routesVisible = true;
+    this._showRouteOnMap(route);
+    this._cdr.markForCheck();
+  }
+
+  /** 
+   * Deseleccionar ruta y ocultarla del mapa
+   */
+  public deselectRoute(): void {
+    this._clearCurrentRoute();
+    this.selectedRoute = null;
+    this.routesVisible = false;
+    this._cdr.markForCheck();
+  }
+
+  /** 
+   * Actualizar las rutas filtradas según el término de búsqueda
+   */
+  private _updateFilteredRoutes(): void {
+    if (!this.routesList || this.routesList.length === 0) {
+      this.filteredRoutes = [];
+      this._cdr.markForCheck();
+      return;
+    }
+    
+    // Filtrar rutas válidas (deben tener al menos un nombre)
+    let validRoutes = this.routesList.filter(route => {
+      if (!route) return false;
+      if (!route.name || typeof route.name !== 'string' || route.name.trim() === '') return false;
+      return true;
+    });
+    
+    // Si no hay término de búsqueda, usar todas las rutas válidas
+    if (!this.routeSearchTerm || this.routeSearchTerm.trim() === '') {
+      this.filteredRoutes = [...validRoutes]; // Crear copia para asegurar detección de cambios
+    } else {
+      // Filtrar por término de búsqueda (búsqueda case-insensitive)
+      const searchTerm = this.routeSearchTerm.toLowerCase().trim();
+      this.filteredRoutes = validRoutes.filter(route => {
+        if (!route || !route.name) return false;
+        return route.name.toLowerCase().includes(searchTerm);
+      });
+    }
+    
+    // Forzar detección de cambios después de actualizar
+    this._cdr.markForCheck();
+  }
+
+  /** 
+   * Handler para cuando cambia el término de búsqueda
+   */
+  public onSearchChange(): void {
+    this._updateFilteredRoutes();
+    this._cdr.markForCheck();
+  }
+
+  /** 
+   * Handler para cuando el buscador pierde el foco
+   */
+  public onSearchBlur(): void {
+    // Esperar un momento antes de quitar el foco para permitir clicks en las rutas
+    setTimeout(() => {
+      // Solo quitar el foco si no hay término de búsqueda
+      if (!this.routeSearchTerm || this.routeSearchTerm.trim() === '') {
+        this.searchBarFocused = false;
+        this._cdr.markForCheck();
+      }
+    }, 150);
+  }
+
+  /** 
+   * Obtener rutas filtradas según el término de búsqueda
+   * @returns Array de rutas filtradas y válidas
+   */
+  public getFilteredRoutes(): Array<{id: number, name: string, geoJson: any}> {
+    return this.filteredRoutes;
+  }
+
+  /** TrackBy function para mejorar el rendimiento del *ngFor */
+  public trackByRouteId(index: number, route: {id: number, name: string, geoJson: any}): number {
+    return route.id;
   }
 }
