@@ -7,12 +7,12 @@ import { Subscription } from 'rxjs';
   templateUrl: './transport-routes-list.component.html',
   styleUrls: ['./transport-routes-list.component.scss']
 })
-export class TransportRoutesListComponent implements OnInit {
+export class TransportRoutesListComponent implements OnInit, OnDestroy {
   @Input() apiUrl: string = '/api/transport-routes';
   @Input() mode: 'dropdown' | 'list' = 'dropdown';
   @Input() placeholder: string = 'Selecciona una ruta';
 
-  @Output() routeSelected = new EventEmitter<TransportRoute>();
+  @Output() routeSelected = new EventEmitter<TransportRoute | null>();
 
   routes: TransportRoute[] = [];
   loading = false;

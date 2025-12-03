@@ -6,10 +6,15 @@
     </div>
     <div *ngIf="error" class="error">{{ error }}</div>
 
-    <select *ngIf="!loading && !error && mode === 'dropdown'" [value]="selectedId || ''" (change)="onSelect($event.target.value || null)">
-      <option value="">{{ placeholder }}</option>
-      <option *ngFor="let r of routes" [value]="r.id">{{ r.name }}</option>
-    </select>
+    <select
+  *ngIf="!loading && !error && mode === 'dropdown'"
+  [value]="selectedId || ''"
+  #selectRef
+  (change)="onSelect(selectRef.value || null)"
+>
+  <option value="">{{ placeholder }}</option>
+  <option *ngFor="let r of routes" [value]="r.id">{{ r.name }}</option>
+</select>
 
     <ul *ngIf="!loading && !error && mode === 'list'" class="routes-list">
       <li *ngFor="let r of routes" (click)="onSelect(r.id)" [class.selected]="r.id === selectedId">
