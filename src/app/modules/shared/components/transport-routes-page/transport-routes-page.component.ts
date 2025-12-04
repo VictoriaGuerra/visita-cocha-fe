@@ -8,8 +8,13 @@ import { Subscription } from 'rxjs';
   templateUrl: './transport-routes-page.component.html',
   styleUrls: ['./transport-routes-page.component.scss']
 })
-export class TransportRoutesPageComponent {
-  selectedRoute: TransportRoute | null = null;
+export class TransportRoutesPageComponent implements OnDestroy {
+  selectedRoute: TransportRoute | null = {
+    id: 'ruta_101',
+    name: 'Ruta 101',
+    archivoUrl: '/assets/GeoJSON/individual-rutes/ruta_101.geojson',
+    tipoArchivo: 'geojson'
+  } as TransportRoute;
   loadingRouteDetails = false;
   error: string | null = null;
 

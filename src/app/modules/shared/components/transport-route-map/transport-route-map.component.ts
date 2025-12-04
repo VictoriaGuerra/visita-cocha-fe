@@ -1,6 +1,16 @@
-import { AfterViewInit, Component, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild, ElementRef } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnChanges,
+  OnDestroy,
+  SimpleChanges,
+  ViewChild,
+  ElementRef
+} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as L from 'leaflet';
+import { kml as toGeoJSONkml } from 'togeojson';
 
 export interface RouteFile {
   archivoUrl: string;
@@ -15,7 +25,7 @@ export interface RouteFile {
 })
 export class TransportRouteMapComponent implements AfterViewInit, OnChanges, OnDestroy {
   @ViewChild('mapContainer', { static: true }) mapContainer!: ElementRef<HTMLDivElement>;
-  @Input() route?: RouteFile | null;
+  @Input() route: RouteFile | null = null;
 
   private map?: L.Map;
   private routeLayer?: L.Layer;
@@ -33,13 +43,16 @@ export class TransportRouteMapComponent implements AfterViewInit, OnChanges, OnD
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['route'] && !changes['route'].isFirstChange()) {
-      const r: RouteFile | null = changes['route'].currentValue;
-      if (r) this.loadAndDraw(r);
+      const r = changes['route'].currentValue as RouteFile | null;
+      if (r) {
+        this.loadAndDraw(r);
+      }
     }
   }
 
   private initMap(): void {
     if (this.map) return;
+
     this.map = L.map(this.mapContainer.nativeElement, {
       center: [0, 0],
       zoom: 2
@@ -74,31 +87,40 @@ export class TransportRouteMapComponent implements AfterViewInit, OnChanges, OnD
         next: (data: any) => {
           this.drawGeoJSON(data);
           this.loading = false;
+          console.debug('TransportRouteMapComponent: loaded geojson route=', route, data);
         },
         error: (err) => {
           this.error = err?.message || 'Error cargando geojson';
           this.loading = false;
+          console.error('TransportRouteMapComponent: error loading geojson', err);
         }
       });
     } else if (route.tipoArchivo === 'kml') {
-      // KML: fetch as text, parse to XML and convert to GeoJSON using toGeoJSON
       this.http.get(url, { responseType: 'text' }).subscribe({
         next: (text: string) => {
+          console.debug(
+            'TransportRouteMapComponent: received KML text length=',
+            text?.length
+          );
           try {
             const parser = new DOMParser();
             const kmlDoc = parser.parseFromString(text, 'text/xml');
-            // toGeoJSON should be available globally (install `togeojson` and import in polyfills or index)
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const tg = (window as any).toGeoJSON || (window as any).togeojson;
-            if (!tg || typeof tg.kml !== 'function') {
-              this.error = 'La librería toGeoJSON no está disponible. Instala `togeojson`.';
-              this.loading = false;
-              return;
+
+            try {
+              const geo = (toGeoJSONkml as unknown as (doc: Document) => any)(kmlDoc);
+              console.debug(
+                'TransportRouteMapComponent: kml->geo result keys=',
+                geo && Object.keys(geo)
+              );
+              this.drawGeoJSON(geo);
+            } catch (err) {
+              this.error =
+                (err as any)?.message || 'Error convirtiendo KML con toGeoJSON';
+              console.error('TransportRouteMapComponent: error converting KML', err);
             }
-            const geo = tg.kml(kmlDoc);
-            this.drawGeoJSON(geo);
           } catch (e: any) {
             this.error = e?.message || 'Error parseando KML';
+            console.error('TransportRouteMapComponent: error parsing KML', e);
           } finally {
             this.loading = false;
           }
@@ -106,6 +128,7 @@ export class TransportRouteMapComponent implements AfterViewInit, OnChanges, OnD
         error: (err) => {
           this.error = err?.message || 'Error cargando KML';
           this.loading = false;
+          console.error('TransportRouteMapComponent: error loading KML', err);
         }
       });
     } else {
@@ -116,21 +139,52 @@ export class TransportRouteMapComponent implements AfterViewInit, OnChanges, OnD
 
   private drawGeoJSON(geo: any): void {
     if (!this.map) return;
+
     this.clearRouteLayer();
+
     try {
+      console.debug('TransportRouteMapComponent: received geo object', geo);
+
       const layer = L.geoJSON(geo, {
         style: () => ({ color: '#0b5', weight: 4 }),
         pointToLayer: (feature, latlng) => L.circleMarker(latlng, { radius: 5 })
       });
+
+      const layers = (layer as any).getLayers ? (layer as any).getLayers() : [];
+      console.debug(
+        'TransportRouteMapComponent: created geoJSON layer, child layers count=',
+        layers.length
+      );
+
       layer.addTo(this.map);
       this.routeLayer = layer;
 
-      const bounds = layer.getBounds && layer.getBounds();
+      try {
+        this.map.invalidateSize();
+      } catch {
+        /* ignore */
+      }
+
+      const bounds = (layer as any).getBounds && (layer as any).getBounds();
+      console.debug('TransportRouteMapComponent: computed bounds =', bounds);
+
       if (bounds && bounds.isValid()) {
         this.map.fitBounds(bounds, { padding: [20, 20] });
+      } else {
+        // fallback: centrar en primer punto si no hay bounds válidos
+        if (layers && layers.length) {
+          const firstLayer = layers[0];
+          if ((firstLayer as any).getLatLng) {
+            const latlng = (firstLayer as any).getLatLng();
+            if (latlng) {
+              this.map.setView(latlng as any, 13);
+            }
+          }
+        }
       }
     } catch (e: any) {
       this.error = e?.message || 'Error dibujando GeoJSON';
+      console.error('TransportRouteMapComponent: error drawing geojson', e);
     }
   }
 

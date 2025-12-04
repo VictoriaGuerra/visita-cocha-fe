@@ -1,4 +1,3 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "compileOnSave": false,
   "compilerOptions": {
@@ -17,7 +16,8 @@
     "noFallthroughCasesInSwitch": true,
     "strictPropertyInitialization": false,
     "target": "es2017",
-    "lib": ["es2018", "dom"]
+    "lib": ["es2018", "dom"],
+    "skipLibCheck": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

@@ -7,7 +7,7 @@
   </div>
 
   <div class="right">
-    <app-transport-route-map [route]="selectedRoute"></app-transport-route-map>
+    <app-transport-route-map [route]="$any(selectedRoute)"></app-transport-route-map>
     <div *ngIf="loadingRouteDetails" class="loading">
       <div class="spinner small"></div>
       <span>Cargando detalles...</span>
